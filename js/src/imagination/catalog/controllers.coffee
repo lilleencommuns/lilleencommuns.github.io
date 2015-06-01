@@ -88,7 +88,7 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         if $scope.project.location.address && $scope.project.location.address.street_address
             address+=$scope.project.location.address.street_address
         if $scope.project.location.address && $scope.project.location.address.country
-            address+=', '
+            address+='<br>'
             address+=$scope.showCountry($scope.project.location.address.country)
         return address
 
@@ -111,12 +111,31 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
             zoom: 3
         }
 
+     $scope.updateGeolocation = (project_id)->
+        # update if already existing geodata
+        putData = {
+            location :{
+                geo: {
+                    coordinates:[$scope.markers[0].lng, $scope.markers[0].lat]
+                    type:"Point"
+                }
+            }
+        }
+        if $scope.project.location
+            putData.location['id'] = $scope.project.location.id
+        
+        Project.one(project_id).patch(putData).then((data)->
+            console.log(" Updated GEO location!", data)
+            )
+
     $scope.geocodeAddress = ()->
         console.log("geocoding")
         lookup_address = $scope.buildAddress()
         pos_promise = geolocation.lookupAddress(lookup_address).then((coords)->
             console.log(" found position !", coords)
             $scope.addMarker(coords[0], coords[1], lookup_address)
+            if $scope.editable
+                $scope.updateGeolocation($scope.projectsheet.project.id)
         ,(reason)->
             console.log(" No place found", reason)
         )
@@ -127,10 +146,11 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
             lat = $scope.project.location.geo.coordinates[1]
             lng = $scope.project.location.geo.coordinates[0] 
             $scope.addMarker(lat, lng, address)
-        # no geo data yet
+        # no geo data yet but address
         else if $scope.project.location && $scope.project.location.address
             console.log(" Try geocoding given address ")
-            $scope.geocodeAddress()
+            if $scope.geocodeAddress()
+                console.log("[loadGeocodedLocation] Found location !")
 
     $scope.isQuestionInQA = (question, question_answers) ->
         return _.find(question_answers, (item) ->
@@ -182,57 +202,12 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         Project.one(resourceId).patch(putData).then((data)->
             $scope.project['location'] = data.location
             console.log(" created/updated project location!", $scope.project)
-            # Try geocoding newly edited address
+            # Try geocoding newly edited address and if found, update geodata
             $scope.geocodeAddress()
             )
 
-        # # Update already existing adress
-        # if $scope.project.location && $scope.project.location.address
-        #     # update address 
-        #     putData = {}
-        #     putData[fieldName] = data
-        #     PostalAddress.one($scope.project.location.address.id).patch(putData).then((data)->
-        #         $scope.project.location.address = data
-        #         console.log(" updated project location!", $scope.project)
-        #         # Try geocoding newly edited address
-        #         $scope.geocodeAddress()
-        #     )
-        # # Update or create location data without already existing adress
-        # else if 
-        #     putData = {
-        #         location:{
-        #             address:{
-        #             }
-        #         }
-        #     }
-        #     # check if already existing geo data
-        #     if $scope.project.location && $scope.project.location.geo
-        #         putData.location['geo'] = $scope.project.location.geo
-        #     putData.location.address[fieldName] = data
-        #     Project.one(resourceId).patch(putData).then((data)->
-        #         $scope.project['location'] = data.location
-        #         console.log(" created project location!", $scope.project)
-        #         # Try geocoding newly edited address
-        #         $scope.geocodeAddress()
-        #         )
 
-    $scope.updateGeolocation = (project_id)->
-        # update if already existing geodata
-        putData = {
-            location :{
-                geo: {
-                    coordinates:[$scope.markers[0].lng, $scope.markers[0].lat]
-                    type:"Point"
-                }
-            }
-        }
-        if $scope.project.location
-            putData.location['id'] = $scope.project.location.id
-        
-        Project.one(project_id).patch(putData).then((data)->
-            console.log(" Updated GEO location!", data)
-            )
-
+   
 
 
     # FIXME : use this for dedicated interface for geocoding
