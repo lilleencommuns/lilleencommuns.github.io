@@ -43,23 +43,13 @@ module.controller("ImaginationProjectSheetCreateCtrl", ($scope, $state, $control
             # FIXME : 
             # a) check currentProfile get populated (see commons.accounts.services)
             # b) implement permissions !
-            # ObjectProfileLink.one().customPOST(
-            #         profile_id: $scope.currentProfile.id,
-            #         level: 0,
-            #         detail : "Créateur/Créatrice",
-            #         isValidated:true
-            #         , 'project/'+getObjectIdFromURI(projectsheetResult.project)).then((objectProfileLinkResult) ->
-            #                 console.log("added current user as team member", objectProfileLinkResult.profile)
-            #                 MakerScienceProject.one(makerscienceProjectResult.id).customPOST({"user_id":objectProfileLinkResult.profile.user.id}, 'assign').then((result)->
-            #                         console.log(" succesfully assigned edit rights ? : ", result)
-            #                 )
-            #         )
         )
-
 )
 
+module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $stateParams, $controller, $modal, Project, 
+                        ProjectSheet, TaggedItem, ObjectProfileLink, DataSharing, ProjectSheetTemplate, 
+                        ProjectSheetQuestionAnswer, PostalAddress, geolocation) ->
 
-module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $stateParams, $controller, Project, ProjectSheet, TaggedItem, ObjectProfileLink, DataSharing, ProjectSheetTemplate, ProjectSheetQuestionAnswer, PostalAddress, geolocation) ->
     $controller('ProjectSheetCtrl', {$scope: $scope, $stateParams: $stateParams})
     $controller('TaggedItemCtrl', {$scope: $scope})
 
@@ -78,40 +68,89 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
             lng: 2.35
             zoom: 5
     }
-    $scope.markers = []
+    $scope.markers = [
+            lat: 46.43
+            lng: 2.35
+        ]
 
     # Methods definitions
-    $scope.geocodeLocation = ()->
-        if $scope.project.location.geo
-            address = ''
-            if $scope.project.location.address
-                if $scope.project.location.address.street_address
-                    address+=$scope.project.location.address.street_address
-                if $scope.project.location.address.country
-                    address+=', '
-                    address+=$scope.project.location.address.country
-            marker = 
-                    {
-                        lat: $scope.project.location.geo.coordinates[1]
-                        lng: $scope.project.location.geo.coordinates[0]
-                        message: address
-                        icon:
-                                type: 'awesomeMarker'
-                                prefix: 'fa'
-                                markerColor: "blue"
-                                iconColor: "white"
-                    }
-            $scope.markers.push(marker)
-            # centre la carte sur le marker
-            $scope.center = {
-                lat: $scope.project.location.geo.coordinates[1]
-                lng: $scope.project.location.geo.coordinates[0]
-                zoom: 3
-            }
-        # no geo data yet
+    $scope.showCountry = (countryCode)->
+        selected_country = _.find($scope.countryData, (country)->
+                return country.id == countryCode
+            )
+        if selected_country
+            return selected_country.text
         else
-            console.log(" no geo data ")
+            return null
 
+    $scope.buildAddress = ()->
+        address = ''
+        if $scope.project.location.address && $scope.project.location.address.street_address
+            address+=$scope.project.location.address.street_address
+        if $scope.project.location.address && $scope.project.location.address.country
+            address+='<br>'
+            address+=$scope.showCountry($scope.project.location.address.country)
+        return address
+
+    $scope.addMarker = (lat, lng, address)->
+        marker = {
+            lat: lat
+            lng: lng
+            message: address
+            icon:
+                    type: 'awesomeMarker'
+                    prefix: 'fa'
+                    markerColor: "blue"
+                    iconColor: "white"
+        }
+        $scope.markers = [marker]
+        # centre la carte sur le marker
+        $scope.center = {
+            lat: lat
+            lng: lng
+            zoom: 3
+        }
+
+     $scope.updateGeolocation = (project_id)->
+        # update if already existing geodata
+        putData = {
+            location :{
+                geo: {
+                    coordinates:[$scope.markers[0].lng, $scope.markers[0].lat]
+                    type:"Point"
+                }
+            }
+        }
+        if $scope.project.location
+            putData.location['id'] = $scope.project.location.id
+        
+        Project.one(project_id).patch(putData).then((data)->
+            console.log(" Updated GEO location!", data)
+            )
+
+    $scope.geocodeAddress = ()->
+        console.log("geocoding")
+        lookup_address = $scope.buildAddress()
+        pos_promise = geolocation.lookupAddress(lookup_address).then((coords)->
+            console.log(" found position !", coords)
+            $scope.addMarker(coords[0], coords[1], lookup_address)
+            if $scope.editable
+                $scope.updateGeolocation($scope.projectsheet.project.id)
+        ,(reason)->
+            console.log(" No place found", reason)
+        )
+
+    $scope.loadGeocodedLocation = ()->
+        if $scope.project.location && $scope.project.location.geo
+            address = $scope.buildAddress()
+            lat = $scope.project.location.geo.coordinates[1]
+            lng = $scope.project.location.geo.coordinates[0] 
+            $scope.addMarker(lat, lng, address)
+        # no geo data yet but address
+        else if $scope.project.location && $scope.project.location.address
+            console.log(" Try geocoding given address ")
+            if $scope.geocodeAddress()
+                console.log("[loadGeocodedLocation] Found location !")
 
     $scope.isQuestionInQA = (question, question_answers) ->
         return _.find(question_answers, (item) ->
@@ -146,41 +185,45 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
             when 'Project' then Project.one(resourceId).patch(putData)
             when 'ProjectSheet' then ProjectSheet.one(resourceId).patch(putData)
 
-    $scope.showCountry = (countryCode)->
-        selected_country = _.find($scope.countryData, (country)->
-                return country.id == countryCode
-            )
-        if selected_country
-            return selected_country.text
-        else
-            return null
-
+    
     $scope.updateProjectAddress = (resourceId, fieldName, data)->
-        # Update already existing adress
-        if $scope.project.location && $scope.project.location.address
-            # update address
-            putData = {}
-            putData[fieldName] = data
-            PostalAddress.one($scope.project.location.address.id).patch(putData).then((data)->
-                $scope.project.location.address = data
-                console.log(" updated project location!", $scope.project)
-            )
-        # Update or create location data without already existing adress
-        else
-            putData = {
-                location:{
-                    address:{
-                    }
-                }
+        putData = {
+            location :{
+                address:{}
             }
-            # check if already existing geo data
-            if $scope.project.location.geo
-                putData.location['geo'] = $scope.project.location.geo
-            putData.location.address[fieldName] = data
-            Project.one(resourceId).patch(putData).then((data)->
-                $scope.project['location'] = data.location
-                console.log(" created project location!", $scope.project)
-                )
+        }
+        if $scope.project.location 
+            putData.location['id'] = $scope.project.location.id
+        if $scope.project.location.address
+            putData.location.address['id'] = $scope.project.location.address.id
+        if $scope.project.location.geo
+            putData.location.geo = $scope.project.location.geo
+        putData.location.address[fieldName] = data
+        Project.one(resourceId).patch(putData).then((data)->
+            $scope.project['location'] = data.location
+            console.log(" created/updated project location!", $scope.project)
+            # Try geocoding newly edited address and if found, update geodata
+            $scope.geocodeAddress()
+            )
+
+
+   
+
+
+    # FIXME : use this for dedicated interface for geocoding
+    $scope.openGeocodingPopup = () ->
+        modalInstance = $modal.open(
+            templateUrl: 'views/catalog/block/geocoding.html'
+            controller: 'GeocodingInstanceCtrl'
+            size: 'lg'
+            resolve:
+                params: ->
+                    return {
+                        project : $scope.project
+                        countryData : $scope.countryData
+                        showCountry : $scope.showCountry
+                    }
+        )   
 
     # Load projectsheet data
     ProjectSheet.one().get({'project__slug' : $stateParams.slug}).then((ProjectSheetResult) ->
@@ -192,12 +235,55 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
             $scope.preparedTags.push({text : taggedItem.tag.name, taggedItemId : taggedItem.id})
         )
 
-        $scope.geocodeLocation()
+        $scope.loadGeocodedLocation()
 
     )
-    
-
-    
-
 )
+
+module.controller('GeocodingInstanceCtrl', ($scope, $rootScope, $modalInstance, params, geolocation) ->
+    console.log('Init GeocodingInstanceCtrl', params)
+    $scope.project = params.project
+    $scope.countryData = params.countryData
+    $scope.showCountry = params.showCountry
+    $scope.markers = []
+    $scope.defaults = {
+            scrollWheelZoom: true # Keep the scrolling working on the page, not in the map
+            maxZoom: 14
+            minZoom: 1
+    }
+    $scope.center = {
+            lat: 46.43
+            lng: 2.35
+            zoom: 5
+    }
+
+    $scope.ok = ->
+        geo = {}
+        $modalInstance.close(geo)
+
+    $scope.cancel = ->
+        $modalInstance.dismiss('cancel')
+
+    $scope.geocode = ()->
+        lookup_address = ''
+        if $scope.project.location.address && $scope.project.location.address.street_address
+            lookup_address+=$scope.project.location.address.street_address
+        if $scope.project.location.address.country
+            lookup_address+=', '
+            lookup_address+=$scope.project.location.address.country
+        pos_promise = geolocation.lookupAddress(lookup_address).then((coords)->
+            console.log(" found position !", coords)
+            marker = 
+                    lat: coords[0]
+                    lng: coords[1]
+            $scope.markers = [marker]
+            # centre la carte sur le marker
+            $scope.center = {
+                lat: coords[0]
+                lng: coords[1]
+                zoom: 6
+            }
+        )
+)
+
 
