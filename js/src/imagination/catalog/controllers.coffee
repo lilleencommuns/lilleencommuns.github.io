@@ -9,6 +9,15 @@ module = angular.module("imagination.catalog.controllers", ['commons.graffiti.co
     
 # )
 
+module.controller("ImaginationFilterCtrl", ($scope, $state, $controller, ProjectSheet)->
+    $controller('FilterCtrl', {$scope: $scope})
+
+    $scope.defaultSiteTagsString = ''
+    for tag in config.defaultSiteTags
+                $scope.defaultSiteTagsString+=tag+','
+
+    $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:$scope.defaultSiteTagsString}).$object
+)
 
 module.controller("ImaginationProjectSheetCreateCtrl", ($scope, $state, $controller, Project, ProjectSheet, TaggedItem, Profile, ObjectProfileLink) ->
     $controller('ProjectSheetCreateCtrl', {$scope: $scope})
