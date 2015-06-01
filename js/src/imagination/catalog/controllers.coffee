@@ -25,7 +25,10 @@ module.controller("ImaginationProjectSheetCreateCtrl", ($scope, $state, $control
         $scope.saveProject().then((projectsheetResult) ->
             console.log(" Just saved project : Result from savingProject : ", projectsheetResult)
             
-            # Here we assign tags to projects 
+            # Here we assign tags to projects and add by default "site tags"
+            for tag in config.defaultSiteTags
+                tag_data = {text:tag}
+                $scope.tags.push(tag_data)
             angular.forEach($scope.tags, (tag)->
                 TaggedItem.one().customPOST({tag : tag.text}, "project/"+projectsheetResult.project.id, {})
             )
@@ -205,10 +208,6 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
             # Try geocoding newly edited address and if found, update geodata
             $scope.geocodeAddress()
             )
-
-
-   
-
 
     # FIXME : use this for dedicated interface for geocoding
     $scope.openGeocodingPopup = () ->

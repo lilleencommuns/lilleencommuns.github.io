@@ -16,7 +16,7 @@
         </div>
     </div><!-- /input-group -->
     <ul class="tags tags-project">
-        <li ng-repeat="tag in suggestedTags | limitTo:16 | tagNameNotInArray:config.defaultSiteTags">
+        <li ng-repeat="tag in suggestedTags | limitTo:26 | tagFieldNotInArray:config.defaultSiteTags:'name'">
             <a href="" ng-click="addToTagsFilter(tag)">{{tag.name}}</a>
         </li>
         
