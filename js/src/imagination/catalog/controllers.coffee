@@ -1,7 +1,7 @@
 module = angular.module("imagination.catalog.controllers", ['commons.graffiti.controllers', "commons.accounts.controllers", "commons.accounts.services", 
                                                         'commons.base.services','commons.catalog.services'])
 
-module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, Tag, FilterService, ProjectSheet)->
+module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Tag, FilterService, ProjectSheet)->
     """
     Controller in charge of updating filter parameters and suggested tags
     """
@@ -30,10 +30,10 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, Tag, F
         FilterService.filterParams.tags = tags_list
         FilterService.filterParams.query = $scope.query_filter
         # update suggested tags by asking remaining facets : use tags_list and default "site tags" as selected facets
+        facet_list = tags_list
         if config.defaultSiteTags
-            for tag in config.defaultSiteTags # add tags from default "site tags"
-                tags_list.push(tag)
-        $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:tags_list}).$object
+            facet_list = tags_list.concat(config.defaultSiteTags)
+        $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:facet_list}).$object
 
     $scope.addToTagsFilter = (aTag)->
         """ If not already there, add aTag from suggested tags to tags filter list (flat+object) """
@@ -44,11 +44,25 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, Tag, F
             $scope.tags_filter.push(simpleTag)
         $scope.refreshFilter()
 
-    $scope.updateSuggestedTags = ()->
-        """
-        Method to update suggested tags with remaining faceted tags 
-        """
-
+    $scope.autocompleteFacetedTags = (query)->
+        """ Method to update suggested tags for autocomplete with remaining faceted tags """
+        # join facet list
+        facet_list = $scope.tags_filter_flat
+        if config.defaultSiteTags
+            facet_list = facet_list.concat(config.defaultSiteTags)
+        deferred = $q.defer()
+        ProjectSheet.one().customGETLIST('search', {auto:query,facet:facet_list}).then((tags)->
+            availableTags = []
+            angular.forEach(tags, (tag) ->
+                tag.name = tag.name.toLowerCase()
+                query = query.toLowerCase()
+                tmpTag =
+                    'text' : tag.name
+                availableTags.push(tmpTag)
+            )
+            deferred.resolve(availableTags)
+            return deferred.promise
+        )
 )
 
 module.controller("ImaginationProjectSheetCreateCtrl", ($scope, $state, $controller, Project, ProjectSheet, TaggedItem, Profile, ObjectProfileLink) ->
