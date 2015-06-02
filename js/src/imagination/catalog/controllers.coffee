@@ -1,22 +1,54 @@
 module = angular.module("imagination.catalog.controllers", ['commons.graffiti.controllers', "commons.accounts.controllers", "commons.accounts.services", 
                                                         'commons.base.services','commons.catalog.services'])
 
-# module.controller("MakerScienceProjectListCtrl", ($scope, $controller, MakerScienceProject) ->
-#     angular.extend(this, $controller('MakerScienceAbstractListCtrl', {$scope: $scope}))
-    
-#     $scope.refreshList = ()->
-#         $scope.projects = MakerScienceProject.one().customGETLIST('search', $scope.params).$object
-    
-# )
+module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, Tag, FilterService, ProjectSheet)->
+    """
+    Controller in charge of updating filter parameters and suggested tags
+    """
+    console.log(" Init ImaginationFilter Ctrl , state param ?")
+    $scope.objectType = 'project' # FIXME : not needed since given in template view
+    $scope.suggestedTags = []
+    $scope.tags_filter = []
+    $scope.tags_filter_flat = []
+    $scope.query_filter = ''
 
-module.controller("ImaginationFilterCtrl", ($scope, $state, $controller, ProjectSheet)->
-    $controller('FilterCtrl', {$scope: $scope})
+    $scope.load = (objectType)->
+        console.log("loading filter on ", objectType)
+        $scope.objectType = objectType
+        $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:config.defaultSiteTags}).$object
 
-    $scope.defaultSiteTagsString = ''
-    for tag in config.defaultSiteTags
-                $scope.defaultSiteTagsString+=tag+','
+    $scope.refreshFilter = ()->
+        """
+        Update FilterService data (query and tags) and suggested tags list
+        """
+        console.log("refreshing filter (ctrler).. ", $scope.tags_filter)
+        tags_list = []
+        $scope.tags_filter_flat = [] # rebuild tags_filter_flat
+        for tag in $scope.tags_filter # add tags chosen as filter
+            tags_list.push(tag.text)
+            $scope.tags_filter_flat.push(tag.text)
+        FilterService.filterParams.tags = tags_list
+        FilterService.filterParams.query = $scope.query_filter
+        # update suggested tags by asking remaining facets : use tags_list and default "site tags" as selected facets
+        if config.defaultSiteTags
+            for tag in config.defaultSiteTags # add tags from default "site tags"
+                tags_list.push(tag)
+        $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:tags_list}).$object
 
-    $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:$scope.defaultSiteTagsString}).$object
+    $scope.addToTagsFilter = (aTag)->
+        """ If not already there, add aTag from suggested tags to tags filter list (flat+object) """
+        if $scope.tags_filter_flat.indexOf(aTag.name) == -1
+            $scope.tags_filter_flat.push(aTag.name)
+            simpleTag =
+                text : aTag.name # structure needed for tags-input directive
+            $scope.tags_filter.push(simpleTag)
+        $scope.refreshFilter()
+
+    $scope.updateSuggestedTags = ()->
+        """
+        Method to update suggested tags with remaining faceted tags 
+        """
+
 )
 
 module.controller("ImaginationProjectSheetCreateCtrl", ($scope, $state, $controller, Project, ProjectSheet, TaggedItem, Profile, ObjectProfileLink) ->
