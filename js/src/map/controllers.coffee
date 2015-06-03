@@ -16,7 +16,15 @@ module.controller("ImaginationProjectsMapCtrl", ($scope, $compile, $anchorScroll
         angular.forEach($scope.projectsheets, (ps)->
             # Either get LatLng directly, or from address_locality ? 
             if ps.project.location
-                if ps.project.location.geo               
+                if ps.project.location.geo 
+                    marker_data = {
+                            title: ps.project.title
+                            baseline: ps.project.baseline
+                            description: ps.project.description
+                            cover: ps.cover                                                                                                           
+                            id: ps.project.id
+                            slug: ps.project.slug
+                        }              
                     marker = 
                     {
                         group: cluster_group_name
@@ -24,15 +32,15 @@ module.controller("ImaginationProjectsMapCtrl", ($scope, $compile, $anchorScroll
                             showCoverageOnHover : false
                         lat: ps.project.location.geo.coordinates[1]
                         lng: ps.project.location.geo.coordinates[0]
-                        message: '<div ng-include="\'views/map/marker_card.html\'" class= "boxes boxes-small"></div>'
-                        data:
-                                title: ps.project.title
-                                baseline: ps.project.baseline
-                                description: ps.project.description
-                                cover: ps.cover                                                                                                           
-                                id: ps.project.id
-                                slug: ps.project.slug
-
+                        getMessageScope: ()->
+                                newScope = $scope.$new()
+                                angular.extend(newScope,
+                                        marker: {
+                                            data: marker_data
+                                        }
+                                )
+                                return newScope
+                        message: '<div ng-include="\'views/map/marker_card.html\'" class="boxes boxes-small"></div>'
                         icon:
                                 type: 'awesomeMarker'
                                 prefix: 'fa'
@@ -77,17 +85,5 @@ module.controller("ImaginationProjectsMapCtrl", ($scope, $compile, $anchorScroll
     # Watch for update in projectsheets list
     $scope.$on('projectListRefreshed', (event)->
         $scope.rebuildMarkers() 
-        )
-
-    # Catch popup opening, format template with current data and open popup
-    $scope.$on('leafletDirectiveMarker.popupopen', (event, leafletEvent) ->
-            newScope = $scope.$new()
-            angular.extend(newScope,
-                    marker: $scope.markers[leafletEvent.markerName]
-            )
-            # FIXME : timeout needed to wait complete fetching of markers popup template
-            $timeout(()->
-                $compile(leafletEvent.leafletEvent.popup._contentNode)(newScope)
-            ,100)
     )
 )

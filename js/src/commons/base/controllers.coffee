@@ -9,24 +9,23 @@ module.controller("AbstractListCtrl", ($scope, FilterService) ->
     watch for changes in filterParams from FilterService
     Controllers using it need to implement a refreshList() method calling adequate [Object]Service
     """
-    $scope.limit = 12
-    $scope.params = {}
-
-    $scope.getParams = ()->
-        $scope.params['limit'] = $scope.limit
-        $scope.params['q'] = FilterService.filterParams.query
-        $scope.params['facet'] = FilterService.filterParams.tags
-        for tag in config.defaultSiteTags
-            $scope.params['facet'].push(tag)
+    $scope.params = {
+            limit:12
+        }
+    $scope.refreshList = ()->
+        console.log(" Abstract List Refresher (do nothing)")
 
     $scope.refreshListGeneric = ()->
-        $scope.getParams()
+        $scope.params['q'] = FilterService.filterParams.query
+        $scope.params['facet'] = FilterService.filterParams.tags
+        if config.defaultSiteTags # add tags from default "site tags" if specified
+            for tag in config.defaultSiteTags 
+                FilterService.filterParams.tags.push(tag)
         $scope.refreshList()
 
     $scope.init = (limit, featured) ->
         if limit
-             $scope.limit = limit
-        
+             $scope.params.limit = limit
         # Refresh FilterService params
         FilterService.filterParams.query = ''
         FilterService.filterParams.tags = []
@@ -62,33 +61,3 @@ module.controller("ObjectGetter", ($scope, Project, Profile) ->
             )
 )
 
-module.controller("FilterCtrl", ($scope, $stateParams, Tag, FilterService) ->
-
-    console.log(" Init Filter Ctrl , state param ? ", $stateParams)
-    $scope.objectType = 'project'
-    $scope.suggestedTags = Tag.getList().$object
-    $scope.tags_filter = []
-    $scope.query_filter = ''
-
-    $scope.load = (objectType)->
-        console.log("loading filter on ", objectType)
-        $scope.objectType = objectType
-
-    $scope.refreshFilter = ()->
-        """
-        Update FilterService data
-        """
-        console.log("refreshing filter (ctrler).. ", FilterService.filterParams)
-        tags_list = []
-        for tag in $scope.tags_filter
-            tags_list.push(tag.text)
-        FilterService.filterParams.tags = tags_list
-        FilterService.filterParams.query = $scope.query_filter
-
-    $scope.addToTagsFilter = (aTag)->
-        simpleTag =
-            text : aTag.name
-        if $scope.tags_filter.indexOf(simpleTag) == -1
-            $scope.tags_filter.push(simpleTag)
-        $scope.refreshFilter()
-)
