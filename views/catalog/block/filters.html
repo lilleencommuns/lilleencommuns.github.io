@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="js/vendor/ng-tags-input/ng-tags-input.bootstrap.min.css">
 <link rel='stylesheet' href='css/textAngular.css'>
 
-<div class="sidebar-filters sidebar-projects" ng-controller="FilterCtrl" ng-init="load(objectType)">
+<div class="sidebar-filters sidebar-projects" ng-controller="ImaginationFilterCtrl" ng-init="load(objectType)">
     <h4>Filtrage Thématique</h4>
     <div class="" style="width:100%; padding-bottom:10px;">
         <div class="" ng-controller="TagAutoCompleteCtrl">
@@ -11,105 +11,16 @@
                         placeholder="> Mot-clé"
                         on-tag-added="refreshFilter()"
                         on-tag-removed="refreshFilter()">
-                        <auto-complete source="loadTags($query)" min-length="1"></auto-complete>
+                        <auto-complete source="autocompleteFacetedTags($query)" min-length="1"></auto-complete>
             </tags-input>
         </div>
     </div><!-- /input-group -->
     <ul class="tags tags-project">
-        <li ng-repeat="tag in suggestedTags | limitTo:26 | tagFieldNotInArray:config.defaultSiteTags:'name'">
+        <li ng-repeat="tag in suggestedTags | limitTo:26 | tagFieldNotInArray:config.defaultSiteTags:'name' | tagFieldNotInArray:tags_filter_flat:'name' ">
             <a href="" ng-click="addToTagsFilter(tag)">{{tag.name}}</a>
         </li>
         
     </ul>
-<!--
-    <h4>Publics ciblés</h4>
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Rechercher...">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Go!</button>
-        </span>
-    </div> /input-group
-    <ul class="tags tags-project">
-        <li><a href="">foo</a></li>
-        <li><a href="">bar</a></li>
-        <li><a href="">many</a></li>
-        <li><a href="">very long</a></li>
-        <li><a href="">things</a></li>
-        <li><a href="">could</a></li>
-        <li><a href="">many</a></li>
-        <li><a href="">very long</a></li>
-        <li><a href="">things</a></li>
-    </ul>
--->
-    <!-- <h4>Format</h4>
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Rechercher...">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Go!</button>
-        </span>
-    </div></input-group 
-    <ul class="tags tags-project">
-        <li><a href="">foo</a></li>
-        <li><a href="">bar</a></li>
-        <li><a href="">many</a></li>
-        <li><a href="">very long</a></li>
-        <li><a href="">things</a></li>
-        <li><a href="">could</a></li>
-        <li><a href="">many</a></li>
-        <li><a href="">very long</a></li>
-        <li><a href="">things</a></li>
-    </ul> -->
-
-    <!-- <h4>Besoins</h4>
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Rechercher...">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Go!</button>
-        </span>
-    </div><!/input-group 
-    <ul class="tags tags-project">
-        <li><a href="">foo</a></li>
-        <li><a href="">bar</a></li>
-        <li><a href="">many</a></li>
-        <li><a href="">very long</a></li>
-        <li><a href="">things</a></li>
-        <li><a href="">could</a></li>
-        <li><a href="">many</a></li>
-        <li><a href="">very long</a></li>
-        <li><a href="">things</a></li>
-    </ul>
- -->
-    <!-- <h4>Localisation</h4>
-    <div class="panel-group" id="filterLocation" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="collapseCountry">
-                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#filterLocation" href="#collapseCountry" aria-expanded="true" aria-controls="collapseCountry">Pays <span class="caret"></span></a></h4>
-            </div>
-            <div id="collapseCountry" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseCountry">
-                <div class="panel-body">
-                    <ul>
-                        <li><a href="">Country 1</a></li>
-                        <li><a href="">Country 2</a></li>
-                        <li><a href="">Country 3</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="collapseRegion">
-                <h4 class="panel-title"><a class="collapsed" data-toggle="collapse" data-parent="#filterLocation" href="#collapseRegion" aria-expanded="false" aria-controls="collapseRegion">Région	<span class="caret"></span></a></h4>
-            </div>
-            <div id="collapseRegion" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseRegion">
-                <div class="panel-body">
-                    <ul>
-                        <li><a href="">Region 1</a></li>
-                        <li><a href="">Region 2</a></li>
-                        <li><a href="">Region 3</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <h4>Moteur de recherche</h4>
     <div class="input-group">
@@ -131,6 +42,3 @@ div.sidebar-preview {
     opacity: 0.5;
 }
 </style>
-<div class="sidebar-filters">
-    
-</div><!-- .sidebar-filters -->
