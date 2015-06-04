@@ -1,10 +1,7 @@
-module = angular.module("commons.catalog.controllers", ['commons.catalog.services', 'commons.base.controllers'])
+module = angular.module("commons.catalog.controllers", ['commons.catalog.services', 'commons.base.controllers', 'commons.base.services'])
 
-module.controller("ProjectSheetListCtrl", ($scope, $controller, ProjectSheet, BareRestangular, $timeout) ->
+module.controller("ProjectSheetListCtrl", ($scope, $controller, ProjectSheet, $timeout) ->
     angular.extend(this, $controller('AbstractListCtrl', {$scope: $scope}))
-    
-    $scope.seeMore = false
-    $scope.resultTotalCount = null
 
     $scope.refreshList = ()->
         ProjectSheet.one().customGETLIST('search', $scope.params).then((result)->
@@ -24,28 +21,6 @@ module.controller("ProjectSheetListCtrl", ($scope, $controller, ProjectSheet, Ba
                 ,10)
                    
             )
-
-    $scope.loadAll = ()->
-    #if  $scope.resultTotalCount < 200
-        console.log(" loading all !")
-        $scope.params['limit'] = $scope.resultTotalCount
-        $scope.refreshList()
-
-    $scope.loadMore = ()->
-        BareRestangular.all($scope.nextURL).getList().then((result)->
-                console.log("loading more !", result)
-                for item in result
-                    $scope.projectsheets.push(item)
-                if result.metadata.next
-                   $scope.seeMore = true
-                   $scope.nextURL = result.metadata.next.slice(1) #to remove first begin slash
-                else
-                    $scope.seeMore = false
-                $timeout(()->
-                    $scope.$broadcast('projectListRefreshed')
-                ,10)
-            )
-        
 )
 
 
