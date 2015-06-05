@@ -66,7 +66,7 @@ angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'comm
                     parent: 'home'
         )
         .state('project.list',
-                url: 'list',
+                url: 'list?tag&query',
                 templateUrl: 'views/catalog/project.list.html',
                 ncyBreadcrumb:
                     label: 'Projets'
@@ -99,41 +99,11 @@ angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'comm
                 ncyBreadcrumb:
                     label: 'Communauté'
         )
-        .state('profile.detail',
-                url: ':slug',
-                templateUrl: 'views/profile/profile.detail.html'
-                controller : 'ProfileCtrl'
-                ncyBreadcrumb:
-                    label: '{{profile.full_name}}'
-                    parent : 'profile.list'
-        )
-        .state('profile.dashboard',
-                url: ':slug/dashboard',
-                templateUrl: 'views/profile/profile.dashboard.html'
-                controller : 'ProfileCtrl'
-                ncyBreadcrumb:
-                    label: '{{profile.full_name}}'
-                    parent : 'profile.detail'
-        )
-        .state('map',
-                url: '/map/',
-                templateUrl: 'views/map/map.html'
-                ncyBreadcrumb:
-                    label: 'Carte de la communauté'
-                    parent : 'profile.list'
-        )
         .state('about',
                 url: '/about/',
                 templateUrl: 'views/base/about.html'
                 ncyBreadcrumb:
                     label: 'A propos'
-                    parent : 'home'
-        )
-        .state('forum',
-                url: '/discussions/',
-                templateUrl: 'views/base/forum.html'
-                ncyBreadcrumb:
-                    label: 'Forum'
                     parent : 'home'
         )
         .state('tags',
@@ -143,21 +113,36 @@ angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'comm
                     label: 'Tags'
                     parent : 'home'
         )
-        .state('tag',
-                url: '/tag/:slug',
-                templateUrl: 'views/base/tagged_objects.html'
-                controller : 'TaggedItemCtrl'
-                ncyBreadcrumb:
-                    label: '{{tag.slug}}'
-                    parent : 'tags'
-        )
-        # .state('search',
-        #         url: '/search/:query',
-        #         templateUrl: 'views/base/search_result.html'
-        #         controller : 'SearchCtrl'
+        # .state('profile.detail',
+        #         url: ':slug',
+        #         templateUrl: 'views/profile/profile.detail.html'
+        #         controller : 'ProfileCtrl'
         #         ncyBreadcrumb:
-        #             label: 'Recherche'
+        #             label: '{{profile.full_name}}'
+        #             parent : 'profile.list'
+        # )
+        # .state('profile.dashboard',
+        #         url: ':slug/dashboard',
+        #         templateUrl: 'views/profile/profile.dashboard.html'
+        #         controller : 'ProfileCtrl'
+        #         ncyBreadcrumb:
+        #             label: '{{profile.full_name}}'
+        #             parent : 'profile.detail'
+        # )
+        # .state('forum',
+        #         url: '/discussions/',
+        #         templateUrl: 'views/base/forum.html'
+        #         ncyBreadcrumb:
+        #             label: 'Forum'
         #             parent : 'home'
+        # )
+        # .state('tag',
+        #         url: '/tag/:slug',
+        #         templateUrl: 'views/base/tagged_objects.html'
+        #         controller : 'TaggedItemCtrl'
+        #         ncyBreadcrumb:
+        #             label: '{{tag.slug}}'
+        #             parent : 'tags'
         # )
 
 ])
