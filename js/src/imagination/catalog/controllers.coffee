@@ -5,7 +5,7 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
     """
     Controller in charge of updating filter parameters and suggested tags
     """
-    console.log(" Init ImaginationFilter Ctrl , state param ?")
+    console.log(" Init ImaginationFilter Ctrl , state param ?", $stateParams)
     $scope.objectType = 'project' # FIXME : not needed since given in template view
     $scope.suggestedTags = []
     $scope.tags_filter = []
@@ -30,7 +30,8 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
         FilterService.filterParams.tags = $scope.tags_filter_flat
         FilterService.filterParams.query = $scope.query_filter
         # update URL without reloading page
-        # FIXME: below works but need to treat case of multiple tags: $state.go('project.list', {tag:$scope.tags_filter_flat, query:$scope.query_filter}, {notify: false});
+        # FIXME: below works but need to treat case of multiple tags: 
+        $state.go('project.list', {tag:$scope.tags_filter_flat, query:$scope.query_filter}, {notify: false});
         $scope.updateSuggestedTags()
 
     $scope.addToTagsFilter = (aTag)->
@@ -44,15 +45,33 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
 
     $scope.load = (objectType)->
         $scope.objectType = objectType
-        if DataSharing.sharedObject.stateParamTag && DataSharing.sharedObject.stateParamTag != ''
-            tagFilterObject = {
-                text:DataSharing.sharedObject.stateParamTag
-                } 
-            $scope.tags_filter.push(tagFilterObject)
-            $scope.tags_filter_flat.push(tagFilterObject.text)
-        if DataSharing.sharedObject.stateParamQuery && DataSharing.sharedObject.stateParamQuery != ''
-            $scope.query_filter = DataSharing.sharedObject.stateParamQuery
+        $scope.tags_filter = []
+        $scope.tags_filter_flat = []
+        $scope.query_filter = ''
+        try
+            if DataSharing.sharedObject.stateParamTag && DataSharing.sharedObject.stateParamTag != ''
+                if typeof DataSharing.sharedObject.stateParamTag == 'string'
+                    tagFilterObject = {
+                        text:DataSharing.sharedObject.stateParamTag
+                        } 
+                    $scope.tags_filter.push(tagFilterObject)
+                    $scope.tags_filter_flat.push(tagFilterObject.text)
+                else 
+                    for tag in DataSharing.sharedObject.stateParamTag
+                        tagFilterObject = {
+                            text:tag
+                            } 
+                        $scope.tags_filter.push(tagFilterObject)
+                        $scope.tags_filter_flat.push(tagFilterObject.text)
+
+            if DataSharing.sharedObject.stateParamQuery && DataSharing.sharedObject.stateParamQuery != ''
+                $scope.query_filter = DataSharing.sharedObject.stateParamQuery
+        catch e
+            $scope.updateSuggestedTags() 
+        
         $scope.updateSuggestedTags() 
+        
+            
 
     $scope.autocompleteFacetedTags = (query)->
         """ Method to update suggested tags for autocomplete with remaining faceted tags """

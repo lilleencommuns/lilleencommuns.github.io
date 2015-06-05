@@ -24,10 +24,13 @@
 
     <h4>Moteur de recherche</h4>
     <div class="input-group">
-        <input type="text" ng-model="query_filter" class="form-control" placeholder="Rechercher...">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="refreshFilter()">Go!</button>
-        </span>
+        <form ng-submit="refreshFilter()">
+            <input type="text" ng-model="query_filter" class="form-control" placeholder="Rechercher...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" ng-click="refreshFilter()">Go!</button>
+            </span>
+
+        </form>
     </div><!-- /input-group -->
 
 </div><!-- .sidebar-projects -->
