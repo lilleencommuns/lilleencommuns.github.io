@@ -122,7 +122,7 @@
                                     e-form="AddressBtnForm"
                                     onbeforesave="updateProjectAddress(project.id, 'street_address', $data)"
                                     >
-                                    {{ project.location.address.street_address || project.location.address.address_locality || '(adresse inconnue)' }}
+                                    {{ project.location.address.street_address || project.location.address.address_locality || '(adresse inconnue)' | capitalize:'all' }}
                                 </p>
                             </div>
                             <div class="minimap">
