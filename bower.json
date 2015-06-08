@@ -47,7 +47,8 @@
     "angular-truncate": "*",
     "bootstrap": "3.3.4",
     "checklist-model":"~0.2.4",
-    "angular-loading-bar": "latest"
+    "angular-loading-bar": "latest",
+    "angular-capitalize-filter":"latest"
   },
   "resolutions": {
     "angular": "1.2.28"

@@ -180,6 +180,8 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         address = ''
         if $scope.project.location.address && $scope.project.location.address.street_address
             address+=$scope.project.location.address.street_address
+        if $scope.project.location.address && $scope.project.location.address.address_locality
+            address+='<br>'+$scope.project.location.address.address_locality
         if $scope.project.location.address && $scope.project.location.address.country
             address+='<br>'
             address+=$scope.showCountry($scope.project.location.address.country)
