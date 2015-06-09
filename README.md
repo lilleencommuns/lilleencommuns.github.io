@@ -44,3 +44,20 @@ Installation
    node_modules/.bin/bower install
 
    python -m SimpleHTTPServer 8080
+
+
+Vous pouvez personnaliser votre installation avec le fichier config.coffee (à regénérer après chaque modification):
+=====
+
+    projectSheetTemplateSlug: 'accompagnement',
+    # Pour proposer un autre modèle de questions sur les fiches projets
+    
+    defaultSiteTags: [],  # comma-separated list of site tags
+    # Pour choisir un tag par défaut qui filtrera tout le site selon ce tag
+    
+    editorialSuggestedTags : ['tag1', 'tag2'], 
+    # List of tags suggested instead of most popular ones
+    
+    defaultResultLimit : 25, 
+    # nb of results loaded by default in projects list page
+
