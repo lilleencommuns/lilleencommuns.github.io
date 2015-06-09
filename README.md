@@ -46,8 +46,11 @@ Installation
    python -m SimpleHTTPServer 8080
 
 
-Vous pouvez personnaliser votre installation avec le fichier config.coffee (à regénérer après chaque modification):
+Personnaliation
 =====
+
+Vous pouvez personnaliser votre installation avec le fichier config.coffee (à regénérer après chaque modification):
+
 
     projectSheetTemplateSlug: 'accompagnement',
     # Pour proposer un autre modèle de questions sur les fiches projets
