@@ -11,12 +11,14 @@ permalink: /contribuer/
 </div>
 
 - Rejoignez [la liste de discussion](https://groups.google.com/forum/#!forum/fabmobencommuns) pour échanger avec le collectif sur cette plateforme et la question des communs dans le domaine de la mobilité
+
 <div id="content">
               <tabset class="nav-tabs-project">
                     <tab heading="Agir">
 </tab>
 </tabset>
 </div>
+
 - [Ajoutez un "commun" sur la plateforme](http://communs.lafabriquedesmobilites.fr/#/c/newcommons)
 - Pour connaitre les travaux en cours ou envisagés, consultez l'[outil de gestion de tâches](https://trello.com/b/qxKy2pMk/incubateur-autour-des-communs) et n'hésitez pas à rejoindre et à vous associer à des actions.
 - Si vous êtes **développeur**, le site est développé en Angular (licence AGPL) disponible sur [GITHUB](http://github.com/fabmob/fabmob.github.io). Le serveur est basé sur une [API](http://data.patapouf.org/api/v0/) ouverte de projets, du dataserveur en Django (licence AGPL) disponible sur [GITHUB](https://github.com/commonsdev/dataserver/)
