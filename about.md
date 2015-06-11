@@ -2,6 +2,9 @@
 layout: page
 permalink: /about/
 ---
+<div id="intro" class="intro-project-create ng-scope" style="background-image: url(&quot;http://lafabriquedesmobilites.fr/wp-content/themes/fabmob/images/rejoindre-fabmob.svg&quot;); width: 800px; height: 100px; margin-left: auto; margin-right: auto; padding-bottom: 184px;">
+    
+</div>
 
 <div id="content">
                 <tabset class="nav-tabs-project">
