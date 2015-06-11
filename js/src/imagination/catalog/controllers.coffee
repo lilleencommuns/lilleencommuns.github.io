@@ -222,6 +222,7 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
 
         Project.one(project_id).patch(putData).then((data)->
             console.log(" Updated GEO location!", data)
+            $scope.project = data
             )
 
     $scope.geocodeAddress = ()->
