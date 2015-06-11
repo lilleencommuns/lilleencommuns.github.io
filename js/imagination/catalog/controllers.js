@@ -101,6 +101,7 @@
         e = _error;
         $scope.updateSuggestedTags();
       }
+      console.log(" loaded ImaginationFilterCtrl ");
       return $scope.updateSuggestedTags();
     };
     return $scope.autocompleteFacetedTags = function(query) {
