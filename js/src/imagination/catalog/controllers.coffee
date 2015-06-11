@@ -181,9 +181,9 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         if $scope.project.location.address && $scope.project.location.address.street_address
             address+=$scope.project.location.address.street_address
         if $scope.project.location.address && $scope.project.location.address.address_locality
-            address+='<br>'+$scope.project.location.address.address_locality
+            address+=', '+$scope.project.location.address.address_locality
         if $scope.project.location.address && $scope.project.location.address.country
-            address+='<br>'
+            address+=', '
             address+=$scope.showCountry($scope.project.location.address.country)
         return address
 
@@ -288,15 +288,18 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
             }
         }
         if $scope.project.location
+            # if already location, specify its id in order to patch it instead of recreating a new one
             putData.location['id'] = $scope.project.location.id
-        if $scope.project.location.address
-            putData.location.address['id'] = $scope.project.location.address.id
-        if $scope.project.location.geo
-            putData.location.geo = $scope.project.location.geo
+            # if already address, specify its id in order to patch it instead of recreating a new one
+            if $scope.project.location.address
+                putData.location.address['id'] = $scope.project.location.address.id
+            # if already geo data, add it to submited data
+            if $scope.project.location.geo
+                putData.location.geo = $scope.project.location.geo
         putData.location.address[fieldName] = data
         Project.one(resourceId).patch(putData).then((data)->
             $scope.project['location'] = data.location
-            console.log(" created/updated project location!", $scope.project)
+            console.log(" created/updated project location!", $scope.project.location)
             # Try geocoding newly edited address and if found, update geodata
             $scope.geocodeAddress()
             )
