@@ -6,7 +6,7 @@
     projectSheetTemplateSlug: 'unisson',
     defaultSiteTags: ['commun', 'fabmob'],
     editorialSuggestedTags: [],
-    defaultResultLimit: 28,
+    defaultResultLimit: 18,
     bucket_uri: 'http://data.patapouf.org/bucket/upload/',
     loginBaseUrl: 'http://data.patapouf.org/api/v0',
     oauthBaseUrl: 'http://fabmob.github.io',
