@@ -1,3 +1,9 @@
+---
+layout: page
+title: Contribuer
+permalink: /contribuer/
+---
+
 <div id="content">
 
      
