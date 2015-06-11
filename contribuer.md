@@ -22,8 +22,7 @@ Rejoignez <a href="https://groups.google.com/forum/#!forum/fabmobencommuns">la l
 
 - Pour connaitre les travaux en cours ou envisagés, consultez l'<a href="https://trello.com/b/qxKy2pMk/incubateur-autour-des-communs">outil de gestion de tâches</a> et n'hésitez pas à rejoindre et à vous associer à des actions.</li>
 
-- Si vous êtes <em>développeur logiciel</em> ou <em>administrateur système</em>, vous pouvez participer au code sur le <a href="https://github.com/Commonsdev/encommuns.org/">Github d'Encommuns</a></li>
-Les contenus sont sous licence libre CC BY-SA 4.0 et le site est développé en Angular (licence AGPL) disponible sur <a href="http://github.com/commonsdev/encommuns.org">GITHUB</a>. Le serveur est basé sur une <a href="http://data.patapouf.org/api/v0/">API</a> ouverte de projets, du dataserveur en Django (licence AGPL) disponible sur <a href="https://github.com/commonsdev/dataserver/">GITHUB</a>.</p>
+- Si vous êtes <em>développeur logiciel</em> ou <em>administrateur système</em>,  le site est développé en Angular (licence AGPL) disponible sur <a href="http://github.com/fabmob/fabmob.github.io">GITHUB</a>. Le serveur est basé sur une <a href="http://data.patapouf.org/api/v0/">API</a> ouverte de projets, du dataserveur en Django (licence AGPL) disponible sur <a href="https://github.com/commonsdev/dataserver/">GITHUB</a>.</p>
 
 - Nos documents de construction du projet sont visibles <a href="https://drive.google.com/drive/u/0/folders/0BzUW0ZSBFWPeT0tpaUVYTFhocms?usp=docs_home">ici dans un dossier google docs, éditable par tous</a></li>
 
@@ -32,3 +31,5 @@ Les contenus sont sous licence libre CC BY-SA 4.0 et le site est développé en 
 </tab>
 </tabset>
 Ce site s'applique à lui-même l'outil de caractérisation comme "commun". C'est visible sur <a href="http://localhost:8081/#/c/fabmobencommuns">la fiche du projet</a>. C'est le meilleur endroit pour accéder directement aux outils de contribution de ce site et s'approprier son fonctionnement. Bienvenue :-)
+
+</div>
