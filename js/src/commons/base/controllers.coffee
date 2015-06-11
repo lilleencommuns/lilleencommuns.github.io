@@ -74,10 +74,14 @@ module.controller("AbstractListCtrl", ($scope, $stateParams, $timeout, BareResta
         if $stateParams.query
             DataSharing.sharedObject['stateParamQuery'] = $stateParams.query # share this with FilterCtrl
             FilterService.filterParams.query = $stateParams.query
+        else
+            DataSharing.sharedObject['stateParamQuery'] = ''
         if $stateParams.tag
             console.log(" [List] got a tag ! ", $stateParams.tag)
             DataSharing.sharedObject['stateParamTag'] = $stateParams.tag # share this with FilterCtrl
             FilterService.filterParams.tags.push($stateParams.tag)
+        else
+            DataSharing.sharedObject['stateParamTag'] = []
         $scope.refreshListGeneric()
 )
 
