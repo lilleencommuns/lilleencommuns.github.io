@@ -4,7 +4,7 @@
 
   module = angular.module("commons.base.controllers", ['commons.base.services', 'commons.accounts.controllers', 'commons.graffiti.services', 'commons.catalog.services']);
 
-  module.controller("AbstractListCtrl", function($scope, $stateParams, BareRestangular, DataSharing, FilterService) {
+  module.controller("AbstractListCtrl", function($scope, $stateParams, $timeout, BareRestangular, DataSharing, FilterService) {
     "Abstract controller that initialize some list filtering parameters and\nwatch for changes in filterParams from FilterService\nControllers using it need to implement a refreshList() method calling adequate [Object]Service";
     console.log(" Init list ctrler, defaultResultLimit = ", config.defaultResultLimit);
     $scope.params = {
