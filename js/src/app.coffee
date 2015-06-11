@@ -1,11 +1,12 @@
 angular.module('commons.base', ['commons.base.controllers', 'commons.base.services', 'commons.base.filters'])
 angular.module('commons.catalog', ['commons.catalog.controllers', 'commons.catalog.services'])
 angular.module('commons.commonsdevmap', ['commons.commonsdevmap.services'])
+angular.module('commons.encommuns', ['commons.encommuns.controllers', 'commons.encommuns.services'])
 angular.module('commons.accounts', ['commons.accounts.services', 'commons.accounts.controllers', 'commons.account.directives'])
 angular.module('commons.ucomment', ['commons.ucomment.controllers', 'commons.ucomment.services'])
 angular.module('imagination.catalog', ['imagination.catalog.controllers'])
 angular.module('map', ['map.controllers'])
-angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'commons.accounts', 'commons.ucomment', 'commons.base',
+angular.module('imagination', ['commons.catalog', 'commons.encommuns', 'commons.commonsdevmap', 'commons.accounts', 'commons.ucomment', 'commons.base',
                                 'imagination.catalog', 'map',
                                 'restangular', 'ui.bootstrap', 'ui.router', 'xeditable', 'checklist-model', 'textAngular', 'angularjs-gravatardirective', 'angularFileUpload',
                                 'ngSanitize', 'ngTagsInput', 'angularMoment', 'angular-unisson-auth', 'leaflet-directive', "angucomplete-alt", "videosharing-embed"
@@ -73,14 +74,14 @@ angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'comm
         )
         .state('project.new',
                 url: 'new',
-                templateUrl: 'views/catalog/project.new.html',
+                templateUrl: 'views/encommuns/commons.new.html',
                 ncyBreadcrumb:
                     label: 'Nouveau projet'
                     parent : 'project.list'
         )
         .state('project.detail',
                 url: ':slug',
-                templateUrl: 'views/catalog/project.detail.html',
+                templateUrl: 'views/encommuns/commons.detail.html',
                 controller : 'ImaginationProjectSheetCtrl'
                 ncyBreadcrumb:
                     label: '{{project.title}}'

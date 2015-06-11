@@ -72,9 +72,10 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
 
             if DataSharing.sharedObject.stateParamQuery && DataSharing.sharedObject.stateParamQuery != ''
                 $scope.query_filter = DataSharing.sharedObject.stateParamQuery
+
         catch e
             $scope.updateSuggestedTags()
-
+        console.log(" loaded ImaginationFilterCtrl ")
         $scope.updateSuggestedTags()
 
 
@@ -332,6 +333,7 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         $scope.loadGeocodedLocation()
 
     )
+
 )
 
 module.controller('GeocodingInstanceCtrl', ($scope, $rootScope, $modalInstance, params, geolocation) ->

@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="js/vendor/ng-tags-input/ng-tags-input.min.css">
+<link rel="stylesheet" href="js/vendor/ng-tags-input/ng-tags-input.bootstrap.min.css">
+<link rel='stylesheet' href='css/textAngular.css'>
+<link rel='stylesheet' href='js/vendor/angucomplete-alt/angucomplete-alt.css'>
+<div class="admin">
+    <div class="row container">
+
+        <div class="col-md-12">
+
+            <div id="content" class="new-project">
+
+                <h2>Ajouter un "commun"</h2>
+                <p>Ce formulaire vous permet de décrire en détails votre "commun". Tous les champs ne sont pas obligatoires et peuvent être modifiés par la suite si vous n'avez pas beaucoup de temps.<p>
+                               
+                <h3>Nouveau commun repéré</h3>
+
+                <form name="newProjectForm" novalidate ng-controller="ImaginationProjectSheetCreateCtrl" ng-init="init('unisson'); submitted=false" ng-submit="saveImaginationProject(newProjectForm.$valid)" ng-class="{ 'has-error' : newProjectForm.$invalid && submitted }">
+                    <div class="row">
+                        <div class="col-md-8">
+
+                            <fieldset class="fake-placeholder">
+                                <h4>Nom du "commun"</h4>
+                                <input type="text"
+                                       name="projectName"
+                                       ng-model="projectsheet.project.title" required/>
+                                <p ng-show="newProjectForm.projectName.$invalid && submitted" class="help-block">Nom du projet requis</p>
+                           </fieldset>
+
+                            <fieldset class="fake-placeholder">
+                                <h4>Résumez le but de ce commun en une courte phrase</h4>
+                                <input type="text"
+                                           name="projectBaseline"
+                                           ng-model="projectsheet.project.baseline" required/>
+                                <p ng-show="newProjectForm.projectBaseline.$invalid && submitted" class="help-block">Courte description du projet requise</p>
+                           </fieldset>
+
+                    <p class="right">
+                        <button type="button" class="button cancel" ui-sref="project.list">Annuler</button>
+                        <!-- FIXME : set up ctrler to allow 'save as draft'  -->
+                        <!-- <button type="button" class="button">Enregistrer en brouillon</button>
+                        <button type="button" class="button" ng-click="submitted=true">Publier</button>
+                         -->
+                        <button type="submit" class="button" ng-click="submitted=true">Enregistrer</button>
+                    </p>
+                
+                </form>
+
+            </div><!-- #content -->
+
+        </div><!-- .row -->
+
+    </div><!-- .row .container -->
+
+</div><!-- .container-fluid -->

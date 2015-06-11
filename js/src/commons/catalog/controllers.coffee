@@ -8,7 +8,7 @@ module.controller("ProjectSheetListCtrl", ($scope, $controller, ProjectSheet, $t
                 console.log(" Refreshed ! ", result)
                 if result.length > 0
                     $scope.projectsheets = result
-                else 
+                else
                     $scope.projectsheets = []
                 $scope.resultTotalCount = result.metadata.total_count
                 if result.metadata.next
@@ -19,7 +19,7 @@ module.controller("ProjectSheetListCtrl", ($scope, $controller, ProjectSheet, $t
                 $timeout(()->
                     $scope.$broadcast('projectListRefreshed')
                 ,10)
-                   
+
             )
 )
 
@@ -29,13 +29,14 @@ module.controller("ProjectSheetCtrl", ($scope, $stateParams, $filter, ProjectShe
                                         @$http, FileUploader, $modal) ->
 
     $scope.init = ->
-        Project.one().get({'slug' : $stateParams.slug}).then((projectResult)->
-            $scope.project = projectResult.objects[0]
-        )
-        ProjectSheet.one().get({'project__slug' : $stateParams.slug}).then((projectsheetResult) ->
-            $scope.projectsheet = projectsheetResult.objects[0]
-            return projectsheetResult.objects[0]
-        )
+        console.log(" INit ProjectSheetCtrl ")
+        # Project.one().get({'slug' : $stateParams.slug}).then((projectResult)->
+        #     $scope.project = projectResult.objects[0]
+        # )
+        # ProjectSheet.one().get({'project__slug' : $stateParams.slug}).then((projectsheetResult) ->
+        #     $scope.projectsheet = projectsheetResult.objects[0]
+        #     return projectsheetResult.objects[0]
+        # )
 
     $scope.updateProjectSheet = (resourceName, resourceId, fieldName, data) ->
         putData = {}
@@ -144,7 +145,7 @@ module.controller("ProjectSheetCreateCtrl", ($rootScope, $scope, ProjectSheet, P
 
 module.controller('GalleryInstanceCtrl', ($scope, $rootScope, $modalInstance, @$http, params, FileUploader, ProjectSheet, BucketFile) ->
     console.log('Init GalleryInstanceCtrl', params)
-    # First check user is authenticated since upload triggers 403 and not gracefully intercepted 401 errors 
+    # First check user is authenticated since upload triggers 403 and not gracefully intercepted 401 errors
     if !$rootScope.authVars.isAuthenticated
         $rootScope.forceLogin()
     if params.projectsheet
