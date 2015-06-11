@@ -975,10 +975,10 @@
         address += $scope.project.location.address.street_address;
       }
       if ($scope.project.location.address && $scope.project.location.address.address_locality) {
-        address += '<br>' + $scope.project.location.address.address_locality;
+        address += ', ' + $scope.project.location.address.address_locality;
       }
       if ($scope.project.location.address && $scope.project.location.address.country) {
-        address += '<br>';
+        address += ', ';
         address += $scope.showCountry($scope.project.location.address.country);
       }
       return address;
@@ -1103,17 +1103,17 @@
       };
       if ($scope.project.location) {
         putData.location['id'] = $scope.project.location.id;
-      }
-      if ($scope.project.location.address) {
-        putData.location.address['id'] = $scope.project.location.address.id;
-      }
-      if ($scope.project.location.geo) {
-        putData.location.geo = $scope.project.location.geo;
+        if ($scope.project.location.address) {
+          putData.location.address['id'] = $scope.project.location.address.id;
+        }
+        if ($scope.project.location.geo) {
+          putData.location.geo = $scope.project.location.geo;
+        }
       }
       putData.location.address[fieldName] = data;
       return Project.one(resourceId).patch(putData).then(function(data) {
         $scope.project['location'] = data.location;
-        console.log(" created/updated project location!", $scope.project);
+        console.log(" created/updated project location!", $scope.project.location);
         return $scope.geocodeAddress();
       });
     };
