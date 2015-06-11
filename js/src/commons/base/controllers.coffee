@@ -3,7 +3,7 @@ module = angular.module("commons.base.controllers",
 
 
 
-module.controller("AbstractListCtrl", ($scope, $stateParams, BareRestangular, DataSharing, FilterService) ->
+module.controller("AbstractListCtrl", ($scope, $stateParams, $timeout, BareRestangular, DataSharing, FilterService) ->
     """
     Abstract controller that initialize some list filtering parameters and
     watch for changes in filterParams from FilterService
