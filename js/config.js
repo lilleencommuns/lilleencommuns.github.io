@@ -4,7 +4,7 @@
     templateBaseUrl: '/views/',
     useHtml5Mode: false,
     projectSheetTemplateSlug: 'unisson',
-    defaultSiteTags: ['communs', 'mobilité'],
+    defaultSiteTags: ['commun', 'fabmob'],
     editorialSuggestedTags: [],
     defaultResultLimit: 28,
     bucket_uri: 'http://data.patapouf.org/bucket/upload/',
