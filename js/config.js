@@ -3,8 +3,8 @@
   this.config = {
     templateBaseUrl: '/views/',
     useHtml5Mode: false,
-    projectSheetTemplateSlug: 'unisson',
-    defaultSiteTags: ['commun', 'fabmob'],
+    projectSheetTemplateSlug: 'accompagnement',
+    defaultSiteTags: ['boulogne'],
     editorialSuggestedTags: [],
     defaultResultLimit: 28,
     bucket_uri: 'http://data.patapouf.org/bucket/upload/',
