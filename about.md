@@ -1,16 +1,8 @@
 ---
 layout: page
-title: About
 permalink: /about/
 ---
 
-</div>
-<div class="col-md-1">
-</div>
-<div class="col-md-10">
-
-
-<div id="content">
 
                 <tabset class="nav-tabs-project">
                     <tab heading=" A propos de ce site">
@@ -31,6 +23,6 @@ permalink: /about/
 <iframe src="//slides.com/unisson/qu-est-ce-qu-un-bien-commun/embed" width="850" height="620" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
 <br></br>	Plus d'informations sur ce qu'est un commun sur le site <a href="http://unisson.co/communs">unisson.co </a><br></br>
-<p>Contenus sous licence libre CC BY-SA 4.0 et site développé en Angular (licence AGPL) disponible sur <a href="http://github.com/unissonco/encommuns.org">GITHUB</a>.</p>
-<p>Le site est basé sur une <a href="http://data.patapouf.org/api/v0/">API</a> ouverte de projets, du dataserveur en Django (licence AGPL) disponible sur <a href="https://github.com/UnissonCo/dataserver/">GITHUB</a>.</p>
+<p>Contenus sous licence libre CC BY-SA 4.0 et site développé en Angular (licence AGPL) disponible sur <a href="http://github.com/fabmob/fabmob.github.io">GITHUB</a>.</p>
+<p>Le site est basé sur une <a href="http://data.patapouf.org/api/v0/">API</a> ouverte de projets, du dataserveur en Django (licence AGPL) disponible sur <a href="https://github.com/CommonsDev/dataserver/">GITHUB</a>.</p>
 
