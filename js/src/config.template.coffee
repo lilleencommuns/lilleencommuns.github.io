@@ -3,7 +3,10 @@
     useHtml5Mode: false,
     projectSheetTemplateSlug: 'unisson',
     defaultSiteTags: ['Mobilité','SEL'],  # comma-separated list of site tags
-    
+    editorialSuggestedTags : [], # list of tags suggested instead of most popular ones
+    defaultResultLimit : 28, # nb of results loaded by default in projects list page
+
+
     # Commons-dev patapouf server
     bucket_uri: 'http://example.org/bucket/upload/',
     loginBaseUrl: 'http://example.org/api/v0', # This can be different from rest_uri

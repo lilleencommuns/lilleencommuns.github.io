@@ -59,7 +59,7 @@
                                 <a editable-text="project.website"
                                     e-form="WebSiteBtnForm"
                                     onbeforesave="updateProjectSheet('Project', project.id , 'website', $data)"
-                                    ng-bind-html="project.website" 
+                                    ng-bind-html="project.website"
                                     ng-href="{{ project.website }}">
                                 </a>
                             </div>
@@ -122,12 +122,12 @@
                                     e-form="AddressBtnForm"
                                     onbeforesave="updateProjectAddress(project.id, 'street_address', $data)"
                                     >
-                                    {{ project.location.address.street_address || '(adresse inconnue)' }}
+                                    {{ project.location.address.street_address || project.location.address.address_locality || '(adresse inconnue)' | capitalize:'all' }}
                                 </p>
                             </div>
                             <div class="minimap">
                                 <!-- <button type="button" ng-click="openGeocodingPopup()" ng-show="editable">Geolocaliser le projet</button> -->
-                                <leaflet id="minimap" defaults="defaults" markers="markers" center="center" 
+                                <leaflet id="minimap" defaults="defaults" markers="markers" center="center"
                                 width="250px" height="150px"></leaflet>
                                 <!-- <button type="button" ng-click="updateGeolocation(project.id)" ng-show="editable">Valider la Geolocalisation</button> -->
                             </div>
@@ -267,7 +267,7 @@
                         <a ui-sref="project.list">Plus de projets <span class="glyphicon glyphicon-chevron-right"></span></a>
                     </div>
                 </li>
-            </ul> --> 
+            </ul> -->
 
             <a ui-sref="project.new" class="large large-red">Créer un projet</a>
 

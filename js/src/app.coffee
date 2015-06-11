@@ -5,11 +5,11 @@ angular.module('commons.accounts', ['commons.accounts.services', 'commons.accoun
 angular.module('commons.ucomment', ['commons.ucomment.controllers', 'commons.ucomment.services'])
 angular.module('imagination.catalog', ['imagination.catalog.controllers'])
 angular.module('map', ['map.controllers'])
-angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'commons.accounts', 'commons.ucomment', 'commons.base', 
+angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'commons.accounts', 'commons.ucomment', 'commons.base',
                                 'imagination.catalog', 'map',
                                 'restangular', 'ui.bootstrap', 'ui.router', 'xeditable', 'checklist-model', 'textAngular', 'angularjs-gravatardirective', 'angularFileUpload',
                                 'ngSanitize', 'ngTagsInput', 'angularMoment', 'angular-unisson-auth', 'leaflet-directive', "angucomplete-alt", "videosharing-embed"
-                                'geocoder-service', 'ncy-angular-breadcrumb', 'truncate', 'angular-loading-bar'])
+                                'geocoder-service', 'ncy-angular-breadcrumb', 'truncate', 'angular-loading-bar', 'angular-capitalize-filter'])
 
 # CORS
 .config(['$httpProvider', ($httpProvider) ->

@@ -16,10 +16,10 @@
         </div>
     </div><!-- /input-group -->
     <ul class="tags tags-project">
-        <li ng-repeat="tag in suggestedTags | limitTo:26 | tagFieldNotInArray:config.defaultSiteTags:'name' | tagFieldNotInArray:tags_filter_flat:'name' ">
+        <li ng-repeat="tag in suggestedTags | tagFieldNotInArray:config.defaultSiteTags:'name' | tagFieldNotInArray:tags_filter_flat:'name' | limitTo:6">
             <a href="" ng-click="addToTagsFilter(tag)">{{tag.name}}</a>
         </li>
-        
+
     </ul>
 
     <h4>Moteur de recherche</h4>

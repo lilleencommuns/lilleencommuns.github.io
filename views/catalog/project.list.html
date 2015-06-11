@@ -1,7 +1,7 @@
 
 <div class="row container">
 
-    <div id="content" class="listing" ng-controller="ProjectSheetListCtrl"  ng-init="init(12)">
+    <div id="content" class="listing" ng-controller="ProjectSheetListCtrl"  ng-init="init(config.defaultResultLimit, false)">
 
         <div class="col-md-12">
 
@@ -17,7 +17,7 @@
                                     <ng-include src="'views/catalog/block/project_thumb.html'" ng-init="project=projectsheet.project; cover=projectsheet.cover"></ng-include>
                                 </div><!-- .box -->
                             </div><!-- .boxes -->
-                            
+
                         </tab>
                         <!-- <tab heading="Détaillés">
                             ... coming soon

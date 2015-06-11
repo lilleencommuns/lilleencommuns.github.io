@@ -1,4 +1,4 @@
-module = angular.module("imagination.catalog.controllers", ['commons.graffiti.controllers', "commons.accounts.controllers", "commons.accounts.services", 
+module = angular.module("imagination.catalog.controllers", ['commons.graffiti.controllers', "commons.accounts.controllers", "commons.accounts.services",
                                                         'commons.base.services','commons.catalog.services'])
 
 module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, DataSharing, Tag, FilterService, ProjectSheet)->
@@ -17,7 +17,13 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
         facet_list = $scope.tags_filter_flat
         if config.defaultSiteTags
             facet_list = $scope.tags_filter_flat.concat(config.defaultSiteTags)
-        $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:facet_list}).$object
+        # when provided, use editorialSuggestedTags *before* 1st facet selection
+        if (config.editorialSuggestedTags.length > 1) && ($scope.tags_filter_flat.length < 1)
+            $scope.suggestedTags = []
+            for tag in config.editorialSuggestedTags
+                $scope.suggestedTags.push({name:tag})
+        else
+            $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:facet_list}).$object
 
     $scope.refreshFilter = ()->
         """
@@ -30,7 +36,7 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
         FilterService.filterParams.tags = $scope.tags_filter_flat
         FilterService.filterParams.query = $scope.query_filter
         # update URL without reloading page
-        # FIXME: below works but need to treat case of multiple tags: 
+        # FIXME: below works but need to treat case of multiple tags:
         $state.go('project.list', {tag:$scope.tags_filter_flat, query:$scope.query_filter}, {notify: false});
         $scope.updateSuggestedTags()
 
@@ -53,25 +59,26 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
                 if typeof DataSharing.sharedObject.stateParamTag == 'string'
                     tagFilterObject = {
                         text:DataSharing.sharedObject.stateParamTag
-                        } 
+                        }
                     $scope.tags_filter.push(tagFilterObject)
                     $scope.tags_filter_flat.push(tagFilterObject.text)
-                else 
+                else
                     for tag in DataSharing.sharedObject.stateParamTag
                         tagFilterObject = {
                             text:tag
-                            } 
+                            }
                         $scope.tags_filter.push(tagFilterObject)
                         $scope.tags_filter_flat.push(tagFilterObject.text)
 
             if DataSharing.sharedObject.stateParamQuery && DataSharing.sharedObject.stateParamQuery != ''
                 $scope.query_filter = DataSharing.sharedObject.stateParamQuery
+
         catch e
-            $scope.updateSuggestedTags() 
-        
-        $scope.updateSuggestedTags() 
-        
-            
+            $scope.updateSuggestedTags()
+        console.log(" loaded ImaginationFilterCtrl ")
+        $scope.updateSuggestedTags()
+
+
 
     $scope.autocompleteFacetedTags = (query)->
         """ Method to update suggested tags for autocomplete with remaining faceted tags """
@@ -105,10 +112,10 @@ module.controller("ImaginationProjectSheetCreateCtrl", ($scope, $state, $control
             return false
         else
             console.log("submitting form")
-        
+
         $scope.saveProject().then((projectsheetResult) ->
             console.log(" Just saved project : Result from savingProject : ", projectsheetResult)
-            
+
             # Here we assign tags to projects and add by default "site tags"
             for tag in config.defaultSiteTags
                 tag_data = {text:tag}
@@ -125,16 +132,16 @@ module.controller("ImaginationProjectSheetCreateCtrl", ($scope, $state, $control
                 $scope.savePhotos(projectsheetResult.id, projectsheetResult.bucket.id)
                 $scope.uploader.onCompleteAll = () ->
                     $state.go("project.detail", {slug : projectsheetResult.project.slug})
-            
+
             # add connected user as team member of project with detail "porteur"
-            # FIXME : 
+            # FIXME :
             # a) check currentProfile get populated (see commons.accounts.services)
             # b) implement permissions !
         )
 )
 
-module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $stateParams, $controller, $modal, Project, 
-                        ProjectSheet, TaggedItem, ObjectProfileLink, DataSharing, ProjectSheetTemplate, 
+module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $stateParams, $controller, $modal, Project,
+                        ProjectSheet, TaggedItem, ObjectProfileLink, DataSharing, ProjectSheetTemplate,
                         ProjectSheetQuestionAnswer, PostalAddress, geolocation) ->
 
     $controller('ProjectSheetCtrl', {$scope: $scope, $stateParams: $stateParams})
@@ -174,8 +181,10 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         address = ''
         if $scope.project.location.address && $scope.project.location.address.street_address
             address+=$scope.project.location.address.street_address
+        if $scope.project.location.address && $scope.project.location.address.address_locality
+            address+=', '+$scope.project.location.address.address_locality
         if $scope.project.location.address && $scope.project.location.address.country
-            address+='<br>'
+            address+=', '
             address+=$scope.showCountry($scope.project.location.address.country)
         return address
 
@@ -210,7 +219,7 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         }
         if $scope.project.location
             putData.location['id'] = $scope.project.location.id
-        
+
         Project.one(project_id).patch(putData).then((data)->
             console.log(" Updated GEO location!", data)
             )
@@ -231,7 +240,7 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         if $scope.project.location && $scope.project.location.geo
             address = $scope.buildAddress()
             lat = $scope.project.location.geo.coordinates[1]
-            lng = $scope.project.location.geo.coordinates[0] 
+            lng = $scope.project.location.geo.coordinates[0]
             $scope.addMarker(lat, lng, address)
         # no geo data yet but address
         else if $scope.project.location && $scope.project.location.address
@@ -272,23 +281,26 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
             when 'Project' then Project.one(resourceId).patch(putData)
             when 'ProjectSheet' then ProjectSheet.one(resourceId).patch(putData)
 
-    
+
     $scope.updateProjectAddress = (resourceId, fieldName, data)->
         putData = {
             location :{
                 address:{}
             }
         }
-        if $scope.project.location 
+        if $scope.project.location
+            # if already location, specify its id in order to patch it instead of recreating a new one
             putData.location['id'] = $scope.project.location.id
-        if $scope.project.location.address
-            putData.location.address['id'] = $scope.project.location.address.id
-        if $scope.project.location.geo
-            putData.location.geo = $scope.project.location.geo
+            # if already address, specify its id in order to patch it instead of recreating a new one
+            if $scope.project.location.address
+                putData.location.address['id'] = $scope.project.location.address.id
+            # if already geo data, add it to submited data
+            if $scope.project.location.geo
+                putData.location.geo = $scope.project.location.geo
         putData.location.address[fieldName] = data
         Project.one(resourceId).patch(putData).then((data)->
             $scope.project['location'] = data.location
-            console.log(" created/updated project location!", $scope.project)
+            console.log(" created/updated project location!", $scope.project.location)
             # Try geocoding newly edited address and if found, update geodata
             $scope.geocodeAddress()
             )
@@ -306,13 +318,13 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
                         countryData : $scope.countryData
                         showCountry : $scope.showCountry
                     }
-        )   
+        )
 
     # Load projectsheet data
     ProjectSheet.one().get({'project__slug' : $stateParams.slug}).then((ProjectSheetResult) ->
         $scope.projectsheet = ProjectSheetResult.objects[0]
         $scope.project = $scope.projectsheet.project
-        
+
         DataSharing.sharedObject = {project: $scope.projectsheet.project}
         angular.forEach($scope.projectsheet.project.tags, (taggedItem) ->
             $scope.preparedTags.push({text : taggedItem.tag.name, taggedItemId : taggedItem.id})
@@ -321,6 +333,7 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         $scope.loadGeocodedLocation()
 
     )
+
 )
 
 module.controller('GeocodingInstanceCtrl', ($scope, $rootScope, $modalInstance, params, geolocation) ->
@@ -356,7 +369,7 @@ module.controller('GeocodingInstanceCtrl', ($scope, $rootScope, $modalInstance, 
             lookup_address+=$scope.project.location.address.country
         pos_promise = geolocation.lookupAddress(lookup_address).then((coords)->
             console.log(" found position !", coords)
-            marker = 
+            marker =
                     lat: coords[0]
                     lng: coords[1]
             $scope.markers = [marker]
@@ -368,5 +381,3 @@ module.controller('GeocodingInstanceCtrl', ($scope, $rootScope, $modalInstance, 
             }
         )
 )
-
-
