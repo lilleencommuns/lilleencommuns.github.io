@@ -1018,7 +1018,8 @@
         putData.location['id'] = $scope.project.location.id;
       }
       return Project.one(project_id).patch(putData).then(function(data) {
-        return console.log(" Updated GEO location!", data);
+        console.log(" Updated GEO location!", data);
+        return $scope.project = data;
       });
     };
     $scope.geocodeAddress = function() {
