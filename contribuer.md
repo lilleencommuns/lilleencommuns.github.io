@@ -10,6 +10,7 @@ permalink: /contribuer/
                     <tab heading="Echanger">
 </tab>
 </tabset>
+
 - Rejoignez [la liste de discussion](https://groups.google.com/forum/#!forum/fabmobencommuns) pour échanger avec le collectif sur cette plateforme et la question des communs dans le domaine de la mobilité
 
 
