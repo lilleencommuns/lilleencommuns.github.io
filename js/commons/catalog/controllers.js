@@ -33,17 +33,7 @@
   module.controller("ProjectSheetCtrl", function($scope, $stateParams, $filter, ProjectSheet, Project, ProjectSheetQuestionAnswer, Bucket, $http, FileUploader, $modal) {
     this.$http = $http;
     $scope.init = function() {
-      Project.one().get({
-        'slug': $stateParams.slug
-      }).then(function(projectResult) {
-        return $scope.project = projectResult.objects[0];
-      });
-      return ProjectSheet.one().get({
-        'project__slug': $stateParams.slug
-      }).then(function(projectsheetResult) {
-        $scope.projectsheet = projectsheetResult.objects[0];
-        return projectsheetResult.objects[0];
-      });
+      return console.log(" INit ProjectSheetCtrl ");
     };
     $scope.updateProjectSheet = function(resourceName, resourceId, fieldName, data) {
       var putData;

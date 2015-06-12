@@ -79,11 +79,15 @@
       if ($stateParams.query) {
         DataSharing.sharedObject['stateParamQuery'] = $stateParams.query;
         FilterService.filterParams.query = $stateParams.query;
+      } else {
+        DataSharing.sharedObject['stateParamQuery'] = '';
       }
       if ($stateParams.tag) {
         console.log(" [List] got a tag ! ", $stateParams.tag);
         DataSharing.sharedObject['stateParamTag'] = $stateParams.tag;
         FilterService.filterParams.tags.push($stateParams.tag);
+      } else {
+        DataSharing.sharedObject['stateParamTag'] = [];
       }
       return $scope.refreshListGeneric();
     };
