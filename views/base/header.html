@@ -11,8 +11,8 @@
                         </button>
                         <a class="navbar-brand" ui-sref="project.list"><img src="./img/imagination.logo.jpg" alt="Logo Imagination" /></a>
                     </div>
-                    
-                    
+
+
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
@@ -21,6 +21,7 @@
                             <!-- <li><a ui-sref="profile.list" ng-class="{ selected: $state.includes('profile.list') }">Membres</a></li> -->
                             <!-- <li><a ui-sref="map" ng-class="{ selected: $state.includes('map') }">Cartographie</a></li> -->
                             <li><a ui-sref="project.list({tag:'',query:''})" ng-class="{ selected: $state.includes('project.list') }">Projets</a></li>
+                            <li><a ui-sref="project.new()" ng-class="{ selected: $state.includes('project.new') }">Ajouter</a></li>
                             <!-- <li><a ui-sref="forum" ng-class="{ selected: $state.includes('forum') }">Discussions</a></li> -->
                         </ul>
                         <!--
@@ -34,7 +35,7 @@
                         </p>
                         <div class="dropdown dropdown-logged-in" ng-show="authVars.isAuthenticated">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                                {{authVars.user.first_name || authVars.user.username }} 
+                                {{authVars.user.first_name || authVars.user.username }}
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -62,7 +63,7 @@
             <div ncy-breadcrumb></div>
         </div>
     </div> -->
-   
+
 </div><!-- #header -->
 
 <!-- DEBUG #FIXME -->
