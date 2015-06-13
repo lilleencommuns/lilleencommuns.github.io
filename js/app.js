@@ -110,6 +110,10 @@
           label: 'Tags',
           parent: 'home'
         }
+      }).state('economique', {
+        url: '/economique',
+        templateUrl: 'views/encommuns/economique.html',
+        controller: 'PrestationManagerCtrl'
       });
     }
   ]).run(function($rootScope, editableOptions, editableThemes, amMoment, loginService, $state, $stateParams, CurrentProfileService) {

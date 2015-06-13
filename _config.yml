@@ -1,12 +1,13 @@
 # Site settings
-title: Les communs de la Fabriques des Mobilités
-email: your-email@domain.com
+
+title: Les communs
+email: contact@encommuns.org
 description: > # this means to ignore newlines until "baseurl:"
-  La Fabrique des Mobilités est un programme d'#039;accélération de projets de startups et intraprenariat dans le domaine des transports et de la mobilités
+  Repérer les communs et les caractériser pour favoriser la convergence des contributions et la récipricité économique autour des communs
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: fab_mob
-github_username:  fabmob
-logo: /img/fabmob-logo.png
+url: "http://encommus.org" # the base hostname & protocol for your site
+twitter_username: encommuns
+github_username:  encommuns.github.io
+logo: 
 # Build settings
 markdown: kramdown

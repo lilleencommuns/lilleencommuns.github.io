@@ -114,6 +114,11 @@ angular.module('imagination', ['commons.catalog', 'commons.encommuns', 'commons.
                     label: 'Tags'
                     parent : 'home'
         )
+        .state('economique',
+                url:'/economique'
+                templateUrl:'views/encommuns/economique.html'
+                controller: 'PrestationManagerCtrl'
+        )
         # .state('profile.detail',
         #         url: ':slug',
         #         templateUrl: 'views/profile/profile.detail.html'
