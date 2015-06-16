@@ -3,7 +3,7 @@
   this.config = {
     templateBaseUrl: '/views/',
     useHtml5Mode: false,
-    projectSheetTemplateSlug: 'accompagnement',
+    projectSheetTemplateSlug: 'unisson',
     defaultSiteTags: ['boulogne'],
     editorialSuggestedTags: [],
     defaultResultLimit: 28,
