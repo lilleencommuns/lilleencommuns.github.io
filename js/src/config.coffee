@@ -10,7 +10,7 @@
     # Commons-dev patapouf server
     bucket_uri: 'http://data.patapouf.org/bucket/upload/',
     loginBaseUrl: 'http://data.patapouf.org/api/v0', # This can be different from rest_uri
-    oauthBaseUrl: 'http://github.encommuns.io', #path to oauth.html
+    oauthBaseUrl: 'http://encommuns.github.io', #path to oauth.html
     oauthCliendId: '834927693290-fdibik9cv2ngiqpdn47qjlc1tqp97cl2.apps.googleusercontent.com',
     media_uri: 'http://data.patapouf.org',
     rest_uri: "http://data.patapouf.org/api/v0",
