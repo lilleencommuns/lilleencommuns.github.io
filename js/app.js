@@ -48,12 +48,12 @@
   }).config([
     '$locationProvider', '$stateProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
       $locationProvider.html5Mode(config.useHtml5Mode);
-      $urlRouterProvider.otherwise("/p/list");
+      $urlRouterProvider.otherwise("/");
       return $stateProvider.state('home', {
         url: '/',
-        templateUrl: 'views/homepage.html',
+        templateUrl: 'views/catalog/project.list.html',
         ncyBreadcrumb: {
-          label: 'Accueil'
+          label: 'Projets'
         }
       }).state('project', {
         url: '/p/',
