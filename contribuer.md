@@ -10,7 +10,7 @@ permalink: /contribuer/
 </tabset>
 </div>
 
-- - Rejoignez [la liste de discussion](http://lists.unisson.co/cgi-bin/mailman/listinfo/encommuns) pour échanger avec le collectif sur cette plateforme
+- - Rejoignez [la liste de discussion](https://ulists.org/listadmin/postorius/lists/encommuns.ulists.org/) pour échanger avec le collectif sur cette plateforme
 
 <div id="content">
               <tabset class="nav-tabs-project">
