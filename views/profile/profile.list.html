@@ -7,28 +7,28 @@
 
             <tabset class="nav-tabs-profile">
                 <tab heading="Nouveaux membres">
-                    <div class="boxes boxes-profiles" ng-controller="MakerScienceProfileListCtrl"  ng-init="init()">
+                    <div class="boxes boxes-profiles" ng-controller="ImaginationProfileListCtrl"  ng-init="init()">
                         <div class="box" ng-repeat="profile in profiles">
                             <ng-include src="'views/profile/block/profile_thumb.html'" ng-init="profile=profile"></ng-include>
                         </div><!-- .box -->
                     </div><!-- .boxes -->
                 </tab>
                 <tab heading="Les plus actifs">
-                    <div class="boxes boxes-profiles" ng-controller="MakerScienceProfileListCtrl"  ng-init="init()">
+                    <div class="boxes boxes-profiles" ng-controller="ImaginationProfileListCtrl"  ng-init="init()">
                         <div class="box" ng-repeat="profile in profiles">
                             <ng-include src="'views/profile/block/profile_thumb.html'" ng-init="profile=profile"></ng-include>
                         </div><!-- .box -->
                     </div><!-- .boxes -->
                 </tab>
                 <tab heading="Alphabétique">
-                    <div class="boxes boxes-profiles" ng-controller="MakerScienceProfileListCtrl"  ng-init="init()">
+                    <div class="boxes boxes-profiles" ng-controller="ImaginationProfileListCtrl"  ng-init="init()">
                         <div class="box" ng-repeat="profile in profiles">
                             <ng-include src="'views/profile/block/profile_thumb.html'" ng-init="profile=profile"></ng-include>
                         </div><!-- .box -->
                     </div><!-- .boxes -->
                 </tab>
                 <tab heading="Aléatoire">
-                    <div class="boxes boxes-profiles" ng-controller="MakerScienceProfileListCtrl"  ng-init="init()">
+                    <div class="boxes boxes-profiles" ng-controller="ImaginationProfileListCtrl"  ng-init="init()">
                         <div class="box" ng-repeat="profile in profiles">
                             <ng-include src="'views/profile/block/profile_thumb.html'" ng-init="profile=profile"></ng-include>
                         </div><!-- .box -->
@@ -43,7 +43,7 @@
     </div>
 
     <div class="col-md-3">
-        <ng-include onload="objectType='makerscienceprofile'" src="'views/catalog/block/filters.html'"></ng-include>
+        <ng-include onload="objectType='profile'" src="'views/catalog/block/filters.html'"></ng-include>
 
         <!-- <div class="sidebar-filters sidebar-profiles">
 

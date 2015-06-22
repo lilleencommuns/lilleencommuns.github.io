@@ -114,14 +114,14 @@ angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'comm
                     label: 'Tags'
                     parent : 'home'
         )
-        # .state('profile.detail',
-        #         url: ':slug',
-        #         templateUrl: 'views/profile/profile.detail.html'
-        #         controller : 'ProfileCtrl'
-        #         ncyBreadcrumb:
-        #             label: '{{profile.full_name}}'
-        #             parent : 'profile.list'
-        # )
+        .state('profile.detail',
+                url: ':id',
+                templateUrl: 'views/profile/profile.detail.html'
+                controller : 'ImaginationProfileCtrl'
+                ncyBreadcrumb:
+                    label: '{{profile.full_name}}'
+                    parent : 'profile.list'
+        )
         # .state('profile.dashboard',
         #         url: ':slug/dashboard',
         #         templateUrl: 'views/profile/profile.dashboard.html'

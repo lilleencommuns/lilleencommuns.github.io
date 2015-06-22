@@ -1,6 +1,9 @@
 module = angular.module("commons.catalog.controllers", ['commons.catalog.services', 'commons.base.controllers', 'commons.base.services'])
 
 module.controller("ProjectSheetListCtrl", ($scope, $controller, ProjectSheet, $timeout) ->
+    """
+    Controller that extends AbstracListCtrl with ProjectSheet search
+    """
     angular.extend(this, $controller('AbstractListCtrl', {$scope: $scope}))
 
     $scope.refreshList = ()->

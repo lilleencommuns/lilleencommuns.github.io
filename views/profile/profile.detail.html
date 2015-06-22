@@ -15,15 +15,16 @@
             <div class="row">
 
                 <div class="col-md-4">
-                    <gravatar-image data-gravatar-email="profile.parent.user.email"
+                    <!-- <gravatar-image data-gravatar-email="profile.user.email"
                                     data-gravatar-size="125"
                                     data-gravatar-rating="pg"
                                     data-gravatar-default="mm"
                                     data-gravatar-secure="true"
                                     data-gravatar-css-class="profile img-circle">
-                    </gravatar-image>
+                    </gravatar-image> -->
+                    <img ng-if="profile" class="profile img-circle" avatar-src="profile.user" avatar-size="120" alt="{{ profile.user.username }}" ng-cloak/>
 
-                    <h1>{{profile.full_name}}</h1>
+                    <h1>{{profile.username }}</h1>
                     <div class="relative">
                         <div class="edit-buttons" ng-show="editable">
                             <button ng-click="ActivityBtnForm.$show()" ng-hide="ActivityBtnForm.$visible">
@@ -32,7 +33,7 @@
                         </div>
                         <h2 editable-text="profile.activity"
                             e-form="ActivityBtnForm"
-                            onbeforesave="updateMakerScienceProfile('MakerScienceProfile', profile.id , 'activity', $data)"
+                            onbeforesave="updateProfile('Profile', profile.id , 'activity', $data)"
                             ng-bind-html="profile.activity">{{ profile.activity }}
                         </h2>
                     </div>
@@ -50,7 +51,7 @@
                                 <span class="glyphicon glyphicon-map-marker"></span>
                                 <label editable-text="profile.location.address_locality"
                                     e-form="LocationBtnForm"
-                                    onbeforesave="updateMakerScienceProfile('PostalAddress', profile.location.id , 'address_locality', $data)"
+                                    onbeforesave="updateProfile('PostalAddress', profile.location.id , 'address_locality', $data)"
                                     ng-bind-html="profile.location.address_locality">{{ profile.location.address_locality }}
                                 </label>
                             </p>
@@ -61,7 +62,7 @@
 
                 <div class="col-md-8">
                     <div class="side-header" ng-class="{ 'editing' : editable }">
-                        <a ui-sref="profile.dashboard({id : profile.id})">Voir mon dashboard</a>
+                        <!-- <a ui-sref="profile.dashboard({id : profile.id})">Voir mon dashboard</a> -->
 
                         <div class="relative bio">
                             <h5 class="bio">Présentation</h5>
@@ -72,12 +73,12 @@
                                  e-form="BioBtnForm"
                                  e-rows="4"
                                  e-ta-toolbar="[['bold','italics', 'underline'], ['ul', 'ol'], ['insertLink']]"
-                                 onbeforesave="updateMakerScienceProfile('MakerScienceProfile', profile.id , 'bio', $data)"
+                                 onbeforesave="updateProfile('Profile', profile.id , 'bio', $data)"
                                  ng-bind-html="profile.bio">
                             </p>
                         </div><!-- .relative -->
 
-                        <div class="relative">
+                        <!-- <div class="relative">
                             <h5 class="skills">Compétences</h5>
                             <div class="editable">
                                 <div class="edit-buttons" ng-show="editable" ng-init="addSkill=false">
@@ -99,7 +100,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div><!-- .relative -->
+                        </div> -->
 
                         <div class="relative">
                             <h5>Intérêts</h5>
@@ -109,10 +110,10 @@
                                 </div>
 
                                 <div ng-show="addInterest==true" ng-controller="TagAutoCompleteCtrl">
-                                    <tags-input ng-model="$parent.preparedInterestTags"
+                                    <tags-input ng-model="preparedInterestTags"
                                                 placeholder="> Mot-clé"
-                                                on-tag-added="$parent.addTagToProfile('in', $tag)"
-                                                on-tag-removed="$parent.removeTagFromProfile($tag)">
+                                                on-tag-added="addTagToProfile('in', $tag)"
+                                                on-tag-removed="removeTagFromProfile($tag)">
                                                 <auto-complete source="loadTags($query)"></auto-complete>
                                     </tags-input>
                                 </div>
@@ -163,7 +164,7 @@
         <div id="content" class="content-member">
 
             <tabset class="nav-tabs-profile">
-                <tab heading="Activités">
+                <!-- <tab heading="Activités">
                     <div class="row">
                         <div class="col-md-7">
                             <div class="activity">
@@ -181,7 +182,7 @@
                                     <li class="activity-pink"><a href="">Gaëtan</a> a répondu à la discussion <a href="">Quels leviers et méthodes utiliseriez-vous pour promouvoir une conférence avec 500 euros de budget?</a><span>Il y a 20 mn</li>
                                 </ul>
                             </div>
-                        </div><!-- .col-md-7 -->
+                        </div>
                         <div class="col-md-5">
                             <div class="contribution">
                                 <h2>Contribution</h2>
@@ -197,9 +198,9 @@
                                 <img src="/img/needs/needs-financing.png" alt="FIXEME" />
                                 <img src="/img/needs/needs-hardware.png" alt="FIXEME" />
                             </div>
-                        </div><!-- .col-md-5 -->
-                    </div><!-- .row -->
-                </tab>
+                        </div>
+                    </div>
+                </tab> -->
                 <tab heading="Projets ({{member_projects.length + fan_projects.length}})">
                     <h2 class="projects">Mes projets</h2>
                     <div class="boxes boxes-listing">
@@ -214,36 +215,23 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="Expériences ({{member_resources.length + fan_resources.length}})">
-                    <h2 class="resources">Mes Expériences</h2>
-                    <div class="boxes boxes-listing">
-                        <div class="box" ng-repeat="resource in member_resources">
-                            <ng-include src="'views/catalog/block/resource_thumb.html'" ng-init="resource=resource"></ng-include>
-                        </div>
-                    </div>
-                    <h2 class="resources">Ces expériences qui m'intéressent</h2>
-                    <div class="boxes boxes-listing">
-                        <div class="box" ng-repeat="resource in fan_resources">
-                            <ng-include src="'views/catalog/block/resource_thumb.html'" ng-init="resource=resource"></ng-include>
-                        </div>
-                    </div>
-                </tab>
-                <tab heading="Discussions (45)">
-                </tab>
-                <tab heading="Contacts (34)">
+
+                <!-- <tab heading="Discussions (45)">
+                </tab> -->
+                <!-- <tab heading="Contacts (34)">
                     <h2 class="members">Mes contacts</h2>
-                    <div class="boxes boxes-profiles" ng-controller="MakerScienceProfileListCtrl"  ng-init="init()">
+                    <div class="boxes boxes-profiles" ng-controller="ImaginationProfileListCtrl"  ng-init="init()">
                         <div class="box" ng-repeat="profile in profiles">
                             <ng-include src="'views/profile/block/profile_thumb.html'" ng-init="profile=profile"></ng-include>
                         </div>
                     </div>
                     <h2 class="members">Contacts similaires</h2>
-                    <div class="boxes boxes-profiles" ng-controller="MakerScienceProfileListCtrl"  ng-init="init()">
+                    <div class="boxes boxes-profiles" ng-controller="ImaginationProfileListCtrl"  ng-init="init()">
                         <div class="box" ng-repeat="profile in profiles">
                             <ng-include src="'views/profile/block/profile_thumb.html'" ng-init="profile=profile"></ng-include>
                         </div>
                     </div>
-                </tab>
+                </tab> -->
             </tabset>
 
         </div><!-- .content-member -->

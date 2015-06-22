@@ -364,10 +364,11 @@ div.crumbs {
 		}
 	}
 	&.intro-profile {
-		border-top: 1px solid #ccc;
-		border-bottom: 1px solid #ccc;
-		background: $color-chocolate url('../img/bg/header-listing-profiles.jpg') center center no-repeat;
+		// border-top: 1px solid #ccc;
+		// border-bottom: 1px solid #ccc;
+		// background: $color-chocolate url('../img/bg/header-listing-profiles.jpg') center center no-repeat;
 		background-size: cover;
+		margin-top: 50px;
 		.col-md-4 {
 			padding-right: 0; /* remove gutter */
 			height: $intro-profile-height;
@@ -390,8 +391,8 @@ div.crumbs {
 				background-color: transparent;
 			}
 			h1 {
-				padding: 0 0 $grid-gutter-width / 2 0;
-				font-size: 2em;
+				// padding: 0 0 $grid-gutter-width / 2 0;
+				// font-size: 2em;
 			}
 			h2 {
 				padding-top: 4px; /* to be aligned with the editing buttons */

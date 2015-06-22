@@ -13,7 +13,9 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
     $scope.query_filter = ''
 
     $scope.updateSuggestedTags = ()->
-        # update suggested tags by asking remaining facets : use tags_list and default "site tags" as selected facets
+        """
+        update suggested tags by asking remaining facets : use tags_list and default "site tags" as selected facets
+        """
         facet_list = $scope.tags_filter_flat
         if config.defaultSiteTags
             facet_list = $scope.tags_filter_flat.concat(config.defaultSiteTags)
@@ -30,8 +32,8 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
         Update FilterService data (query and tags) and suggested tags list
         """
         console.log("refreshing filter (ctrler).. ", $scope.tags_filter)
-        $scope.tags_filter_flat = [] # rebuild tags_filter_flat
-        for tag in $scope.tags_filter # add tags chosen as filter
+        $scope.tags_filter_flat = [] # rebuild tags_filter_flat with tags chosen as filter
+        for tag in $scope.tags_filter
             $scope.tags_filter_flat.push(tag.text)
         FilterService.filterParams.tags = $scope.tags_filter_flat
         FilterService.filterParams.query = $scope.query_filter
