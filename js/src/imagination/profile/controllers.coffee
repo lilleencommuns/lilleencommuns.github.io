@@ -5,6 +5,7 @@ module.controller("ImaginationProfileListCtrl", ($scope, $controller, Profile) -
     angular.extend(this, $controller('AbstractListCtrl', {$scope: $scope}))
 
     $scope.refreshList = ()->
+        # FIXME : implement filter
         $scope.profiles = Profile.one().getList().$object
 )
 
@@ -23,7 +24,7 @@ module.controller("ImaginationProfileCtrl", ($scope, $stateParams, Profile, Proj
 
         ObjectProfileLink.getList({content_type:'project', profile__id : $scope.profile.id}).then((linkedProjectResults)->
             angular.forEach(linkedProjectResults, (linkedProject) ->
-                Project.one().get({parent__id : linkedProject.object_id}).then((projectResults) ->
+                Project.one().get({id : linkedProject.object_id}).then((projectResults) ->
                     if projectResults.objects.length == 1
                         if linkedProject.level == 0
                             $scope.member_projects.push(projectResults.objects[0])

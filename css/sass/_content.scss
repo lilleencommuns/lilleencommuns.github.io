@@ -853,7 +853,7 @@ div.toolbar {
 			display: inline-block;
 			position: relative;
 			width: $boxes-width - 1px; /* need to fix extra space added by Angular between </li><li> */
-			height: $boxes-width + $grid-gutter-width / 2;
+			// height: $boxes-width + $grid-gutter-width / 2;
 			margin-right: $grid-gutter-width;
 			margin-bottom: 2em;
 			text-align: center;
@@ -885,6 +885,7 @@ div.toolbar {
 			}
 			h3 {
 				position: relative;
+				display: block;
 				padding: 0;
 				background-color: transparent;
 				text-transform: uppercase;

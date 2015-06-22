@@ -376,7 +376,7 @@ div.crumbs {
 		}
 		.col-md-8 {
 			padding-left: 0; /* remove gutter */
-			height: $intro-profile-height;
+			height: 200px;
 			max-height: $intro-profile-height;
 		}
 		div.intro {
@@ -459,7 +459,7 @@ div.crumbs {
 
 	div.side-header {
 		position: relative;
-		min-height: $home-slide-height;
+		// min-height: $home-slide-height;
 		margin-right: -1px; /* fix 1px bug from boostrap grid */
 		padding: 1em;
 		color: $color-intro;
@@ -467,6 +467,9 @@ div.crumbs {
 		p.location img {
 			margin-right: 1em;
 			vertical-align: middle;
+		}
+		.profile {
+			min-height: 200px;
 		}
 	}
 

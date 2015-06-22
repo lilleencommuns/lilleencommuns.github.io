@@ -6,11 +6,8 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
     Controller in charge of updating filter parameters and suggested tags
     """
     console.log(" Init ImaginationFilter Ctrl , state param ?", $stateParams)
-    $scope.objectType = 'project' # FIXME : not needed since given in template view
-    $scope.suggestedTags = []
-    $scope.tags_filter = []
-    $scope.tags_filter_flat = []
-    $scope.query_filter = ''
+    #$scope.objectType = 'project' # FIXME : not needed since given in template view
+
 
     $scope.updateSuggestedTags = ()->
         """
@@ -25,7 +22,11 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
             for tag in config.editorialSuggestedTags
                 $scope.suggestedTags.push({name:tag})
         else
-            $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:facet_list}).$object
+            switch $scope.objectType
+                when 'project' then $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {auto:'',facet:facet_list}).$object
+                #when 'profile' then $scope.suggestedTags = Tag.getList({content_type:$scope.objectType}).$object
+                when 'profile' then $scope.suggestedTags = [] # FIXME : filter tag by content_type not working !
+
 
     $scope.refreshFilter = ()->
         """
@@ -39,7 +40,7 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
         FilterService.filterParams.query = $scope.query_filter
         # update URL without reloading page
         # FIXME: below works but need to treat case of multiple tags:
-        $state.go('project.list', {tag:$scope.tags_filter_flat, query:$scope.query_filter}, {notify: false});
+        #$state.go('project.list', {tag:$scope.tags_filter_flat, query:$scope.query_filter}, {notify: false});
         $scope.updateSuggestedTags()
 
     $scope.addToTagsFilter = (aTag)->
@@ -52,10 +53,15 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
         $scope.refreshFilter()
 
     $scope.load = (objectType)->
+        console.log(" loading FilterCtrl for type : ", objectType)
+        console.log(" loading FilterCtrl date shared  : ", DataSharing.sharedObject)
+
         $scope.objectType = objectType
         $scope.tags_filter = []
         $scope.tags_filter_flat = []
         $scope.query_filter = ''
+        $scope.suggestedTags = []
+
         try
             if DataSharing.sharedObject.stateParamTag && DataSharing.sharedObject.stateParamTag != ''
                 if typeof DataSharing.sharedObject.stateParamTag == 'string'

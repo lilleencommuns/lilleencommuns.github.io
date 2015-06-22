@@ -14,7 +14,7 @@
         <div class="intro">
             <div class="row">
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <!-- <gravatar-image data-gravatar-email="profile.user.email"
                                     data-gravatar-size="125"
                                     data-gravatar-rating="pg"
@@ -60,8 +60,8 @@
 
                 </div>
 
-                <div class="col-md-8">
-                    <div class="side-header" ng-class="{ 'editing' : editable }">
+                <div class="col-md-8 profile">
+                    <div class="side-header profile" ng-class="{ 'editing' : editable }">
                         <!-- <a ui-sref="profile.dashboard({id : profile.id})">Voir mon dashboard</a> -->
 
                         <div class="relative bio">
@@ -162,9 +162,20 @@
     <div class="col-md-12">
 
         <div id="content" class="content-member">
-
-            <tabset class="nav-tabs-profile">
-                <!-- <tab heading="Activités">
+            <h2 class="projects">Mes projets</h2>
+            <div class="boxes boxes-listing">
+                <div class="box" ng-repeat="project in member_projects">
+                    <ng-include src="'views/catalog/block/project_thumb.html'" ng-init="project=project"></ng-include>
+                </div>
+            </div>
+            <h2 class="projects">Ces projets qui m'intéressent</h2>
+            <div class="boxes boxes-listing">
+                <div class="box" ng-repeat="project in fan_projects">
+                    <ng-include src="'views/catalog/block/project_thumb.html'" ng-init="project=project"></ng-include>
+                </div>
+            </div>
+            <!--<tabset class="nav-tabs-profile">
+                 <tab heading="Activités">
                     <div class="row">
                         <div class="col-md-7">
                             <div class="activity">
@@ -201,7 +212,7 @@
                         </div>
                     </div>
                 </tab> -->
-                <tab heading="Projets ({{member_projects.length + fan_projects.length}})">
+                <!-- <tab heading="Projets ({{member_projects.length + fan_projects.length}})">
                     <h2 class="projects">Mes projets</h2>
                     <div class="boxes boxes-listing">
                         <div class="box" ng-repeat="project in member_projects">
@@ -214,7 +225,7 @@
                             <ng-include src="'views/catalog/block/project_thumb.html'" ng-init="project=project"></ng-include>
                         </div>
                     </div>
-                </tab>
+                </tab> -->
 
                 <!-- <tab heading="Discussions (45)">
                 </tab> -->
@@ -231,8 +242,8 @@
                             <ng-include src="'views/profile/block/profile_thumb.html'" ng-init="profile=profile"></ng-include>
                         </div>
                     </div>
-                </tab> -->
-            </tabset>
+                </tab>
+            </tabset>-->
 
         </div><!-- .content-member -->
 
