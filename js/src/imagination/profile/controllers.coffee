@@ -9,7 +9,7 @@ module.controller("ImaginationProfileListCtrl", ($scope, $controller, Profile) -
         $scope.profiles = Profile.one().getList().$object
 )
 
-module.controller("ImaginationProfileCtrl", ($scope, $stateParams, Profile, Project, ObjectProfileLink, PostalAddress) ->
+module.controller("ImaginationProfileCtrl", ($scope, $stateParams, Profile, Project, ObjectProfileLink, PostalAddress, TaggedItem) ->
 
     Profile.one($stateParams.id).get().then((profileResult) ->
         $scope.profile = profileResult
@@ -28,6 +28,10 @@ module.controller("ImaginationProfileCtrl", ($scope, $stateParams, Profile, Proj
                     if projectResults.objects.length == 1
                         if linkedProject.level == 0
                             $scope.member_projects.push(projectResults.objects[0])
+                            angular.forEach(projectResults.objects[0].tags, (projectTag)->
+                                console.log("interest tags : ", projectTag)
+                                $scope.preparedInterestTags.push({text : projectTag.tag.name, taggedItemId : projectTag.id})
+                                )
                         else if linkedProject.level == 2
                             $scope.fan_projects.push(projectResults.objects[0])
                 )
@@ -43,7 +47,7 @@ module.controller("ImaginationProfileCtrl", ($scope, $stateParams, Profile, Proj
         )
 
         $scope.addTagToProfile = (tag_type, tag) ->
-            TaggedItem.one().customPOST({tag : tag.text}, "profile/"+$scope.profile.id+"/"+tag_type, {})
+            TaggedItem.one().customPOST({tag : tag.text}, "profile/"+$scope.profile.id, {})
 
         $scope.removeTagFromProfile = (tag) ->
             TaggedItem.one(tag.taggedItemId).remove()

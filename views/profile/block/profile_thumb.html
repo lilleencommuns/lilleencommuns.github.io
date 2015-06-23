@@ -4,16 +4,9 @@
         85 - homepage
         140 - profile listing
     -->
-    <!-- <gravatar-image data-gravatar-email="profile.user.email"
-        data-gravatar-size="85"
-        data-gravatar-rating="pg"
-        data-gravatar-default="mm"
-        data-gravatar-secure="true"
-        data-gravatar-css-class="img-circle">
-    </gravatar-image> -->
     <img ng-if="profile" class="img-circle" avatar-src="profile.user" avatar-size="84" alt="{{ profile.user.username }}" ng-cloak/>
     <h3>{{profile.user.first_name}} <strong>{{profile.user.last_name}}</strong></h3>
-    <h3> <strong> {{profile.username}}</strong></h3>
+    <h3 ng-if="!profile.user.first_name || !profile.user.last_name"> <strong> {{profile.username}}</strong></h3>
     <h4>{{profile.activity}}</h4>
     <h5><span class="glyphicon glyphicon-map-marker"></span> {{profile.location.address_locality}}</h5>
 </a>
