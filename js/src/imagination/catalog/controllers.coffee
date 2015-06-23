@@ -36,19 +36,22 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
         $scope.tags_filter_flat = [] # rebuild tags_filter_flat with tags chosen as filter
         for tag in $scope.tags_filter
             $scope.tags_filter_flat.push(tag.text)
+        console.log("refreshing filter (ctrler) tags_filter_flat : ", $scope.tags_filter_flat)
         FilterService.filterParams.tags = $scope.tags_filter_flat
         FilterService.filterParams.query = $scope.query_filter
         # update URL without reloading page
         # FIXME: below works but need to treat case of multiple tags:
-        #$state.go('project.list', {tag:$scope.tags_filter_flat, query:$scope.query_filter}, {notify: false});
+        $state.go('project.list', {tag:$scope.tags_filter_flat, query:$scope.query_filter}, {notify: false});
         $scope.updateSuggestedTags()
 
     $scope.addToTagsFilter = (aTag)->
         """ If not already there, add aTag from suggested tags to tags filter list (flat+object) """
+        console.log(" Adding tag to filter, aTag :  ", aTag)
         if $scope.tags_filter_flat.indexOf(aTag.name) == -1
             $scope.tags_filter_flat.push(aTag.name)
             simpleTag =
                 text : aTag.name # structure needed for tags-input directive
+            console.log(" Adding tag to filter, simpleTag : ", simpleTag)
             $scope.tags_filter.push(simpleTag)
         $scope.refreshFilter()
 

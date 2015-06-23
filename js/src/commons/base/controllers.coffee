@@ -37,9 +37,11 @@ module.controller("AbstractListCtrl", ($scope, $stateParams, $timeout, BareResta
         """ Retrieves search parameters from FilterService and defaultSiteTags and triggers refreshList """
         $scope.params['q'] = FilterService.filterParams.query
         $scope.params['facet'] = FilterService.filterParams.tags
+        console.log(" tags paremeters ? : ", FilterService.filterParams.tags)
         if config.defaultSiteTags # add tags from default "site tags" if specified
             for tag in config.defaultSiteTags
                 $scope.params['facet'].push(tag)
+        console.log(" facet paremeters ? : ", $scope.params['facet'] )
         $scope.refreshList()
 
     $scope.loadAll = ()->
@@ -80,11 +82,14 @@ module.controller("AbstractListCtrl", ($scope, $stateParams, $timeout, BareResta
         else
             DataSharing.sharedObject['stateParamQuery'] = ''
         if $stateParams.tag
-            # !!! FIXME !!!!
             # check wether list or single tag provided (see ImaginationFilterCtrl)
             console.log(" [List] got a tag ! ", $stateParams.tag)
             DataSharing.sharedObject['stateParamTag'] = $stateParams.tag # share this with FilterCtrl
-            FilterService.filterParams.tags.push($stateParams.tag)
+            if typeof($stateParams.tag) == 'string'
+                FilterService.filterParams.tags.push($stateParams.tag)
+            else
+                for tag in $stateParams.tag
+                    FilterService.filterParams.tags.push(tag)
         else
             DataSharing.sharedObject['stateParamTag'] = []
         $scope.refreshListGeneric()
