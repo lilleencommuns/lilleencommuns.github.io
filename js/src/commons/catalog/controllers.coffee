@@ -2,7 +2,7 @@ module = angular.module("commons.catalog.controllers", ['commons.catalog.service
 
 module.controller("ProjectSheetListCtrl", ($scope, $controller, ProjectSheet, $timeout) ->
     """
-    Controller that extends AbstracListCtrl with ProjectSheet search
+    Controller that extends AbstractListCtrl with ProjectSheet search
     """
     angular.extend(this, $controller('AbstractListCtrl', {$scope: $scope}))
 

@@ -55,6 +55,7 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
     $scope.load = (objectType)->
         console.log(" loading FilterCtrl for type : ", objectType)
         console.log(" loading FilterCtrl date shared  : ", DataSharing.sharedObject)
+        console.log(" loading FilterCtrl date shared typeof  : ", typeof(DataSharing.sharedObject.stateParamTag))
 
         $scope.objectType = objectType
         $scope.tags_filter = []
@@ -64,7 +65,7 @@ module.controller("ImaginationFilterCtrl", ($scope, $state, $stateParams, $q, Da
 
         try
             if DataSharing.sharedObject.stateParamTag && DataSharing.sharedObject.stateParamTag != ''
-                if typeof DataSharing.sharedObject.stateParamTag == 'string'
+                if typeof(DataSharing.sharedObject.stateParamTag) == 'string'
                     tagFilterObject = {
                         text:DataSharing.sharedObject.stateParamTag
                         }
