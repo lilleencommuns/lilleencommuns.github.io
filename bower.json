@@ -1,16 +1,15 @@
 {
-  "name": "makerscience",
+  "name": "projects-front-end",
   "version": "0.5.4",
-  "homepage": "https://github.com/UnissonCo/makerscience",
+  "homepage": "https://github.com/CommonsDev/projects-front-end",
   "authors": [
     "Unisson Team <contact@unisson.co>"
   ],
-  "description": "MakerScience",
+  "description": "Front end for imagination.social new version",
   "main": "index.html",
   "keywords": [
     "unisson",
-    "scienceanimation",
-    "makerscience"
+    "projects"
   ],
   "license": "AGPL v3",
   "private": true,
@@ -48,7 +47,8 @@
     "bootstrap": "3.3.4",
     "checklist-model":"~0.2.4",
     "angular-loading-bar": "latest",
-    "angular-capitalize-filter":"latest"
+    "angular-capitalize-filter":"latest",
+    "angular-slugify":"latest"
   },
   "resolutions": {
     "angular": "1.2.28"

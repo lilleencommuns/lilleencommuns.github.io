@@ -36,7 +36,11 @@ module.controller("TaggedItemCtrl", ($scope, $stateParams, $modal, Tag, TaggedIt
 
 
     $scope.addTag = (objectTypeName, resourceId, tag) ->
-        TaggedItem.one().customPOST({tag : tag.text}, objectTypeName+"/"+resourceId, {})
+        tag_text = tag.text
+        tag_text = tag_text.toLowerCase()
+        tag_text = tag_text.replace(/\//i,"-");
+        tag.text = tag_text
+        TaggedItem.one().customPOST({tag : tag_text}, objectTypeName+"/"+resourceId, {})
 
     $scope.removeTag = (tag) ->
         TaggedItem.one(tag.taggedItemId).remove()

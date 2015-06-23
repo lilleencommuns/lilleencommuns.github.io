@@ -4,9 +4,10 @@ angular.module('commons.commonsdevmap', ['commons.commonsdevmap.services'])
 angular.module('commons.accounts', ['commons.accounts.services', 'commons.accounts.controllers', 'commons.account.directives'])
 angular.module('commons.ucomment', ['commons.ucomment.controllers', 'commons.ucomment.services'])
 angular.module('imagination.catalog', ['imagination.catalog.controllers'])
+angular.module('imagination.profile', ['imagination.profile.controllers', 'imagination.profile.services'])
 angular.module('map', ['map.controllers'])
 angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'commons.accounts', 'commons.ucomment', 'commons.base',
-                                'imagination.catalog', 'map',
+                                'imagination.catalog', 'imagination.profile', 'map',
                                 'restangular', 'ui.bootstrap', 'ui.router', 'xeditable', 'checklist-model', 'textAngular', 'angularjs-gravatardirective', 'angularFileUpload',
                                 'ngSanitize', 'ngTagsInput', 'angularMoment', 'angular-unisson-auth', 'leaflet-directive', "angucomplete-alt", "videosharing-embed"
                                 'geocoder-service', 'ncy-angular-breadcrumb', 'truncate', 'angular-loading-bar', 'angular-capitalize-filter'])
@@ -113,14 +114,14 @@ angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'comm
                     label: 'Tags'
                     parent : 'home'
         )
-        # .state('profile.detail',
-        #         url: ':slug',
-        #         templateUrl: 'views/profile/profile.detail.html'
-        #         controller : 'ProfileCtrl'
-        #         ncyBreadcrumb:
-        #             label: '{{profile.full_name}}'
-        #             parent : 'profile.list'
-        # )
+        .state('profile.detail',
+                url: ':id',
+                templateUrl: 'views/profile/profile.detail.html'
+                controller : 'ImaginationProfileCtrl'
+                ncyBreadcrumb:
+                    label: '{{profile.full_name}}'
+                    parent : 'profile.list'
+        )
         # .state('profile.dashboard',
         #         url: ':slug/dashboard',
         #         templateUrl: 'views/profile/profile.dashboard.html'
