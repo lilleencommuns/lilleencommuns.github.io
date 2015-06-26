@@ -21,9 +21,11 @@ module.controller("CommunityCtrl", ($scope, Profile, ObjectProfileLink, DataShar
 
     $scope.init = (objectTypeName) ->
         console.log("init community ctrler")
+
         $scope.addMember = (profile, level, detail, isValidated)->
-            console.log(" Profile ?", profile)
-            if $scope.isAlreadyMember(profile, level)
+            console.log(" Profile ?", profile.objects[0].id)
+            console.log(" community A:" , $scope.community)
+            if $scope.isAlreadyMember(profile.objects[0], level)
                 console.log(" --- ! -- already Member with this level --- ! ---")
                 return true
             ObjectProfileLink.one().customPOST(
@@ -32,6 +34,7 @@ module.controller("CommunityCtrl", ($scope, Profile, ObjectProfileLink, DataShar
                 detail : detail,
                 isValidated:isValidated
             , $scope.objectTypeName+'/'+$scope.object.id).then((objectProfileLinkResult) ->
+                console.log(" Profile ?", profile.id)
                 $scope.community.push(objectProfileLinkResult)
             )
 
@@ -80,5 +83,6 @@ module.controller("CommunityCtrl", ($scope, Profile, ObjectProfileLink, DataShar
                 if newVal != oldVal
                     $scope.object = newVal[$scope.objectTypeName]
                     $scope.community = ObjectProfileLink.one().customGETLIST($scope.objectTypeName+'/'+$scope.object.id).$object
+                    console.log(" community B:" , $scope.community)
         )
 )
