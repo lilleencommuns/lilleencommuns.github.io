@@ -15,7 +15,7 @@
             <div class="row">
 
                 <div class="col-md-12">
-                    <gravatar-image data-gravatar-email="profile.parent.user.email"
+                    <gravatar-image data-gravatar-email="profile.user.email"
                                     data-gravatar-size="200"
                                     data-gravatar-rating="pg"
                                     data-gravatar-default="mm"
@@ -32,7 +32,7 @@
                         </div>
                         <h2 editable-text="profile.activity"
                             e-form="ActivityBtnForm"
-                            onbeforesave="updateMakerScienceProfile('MakerScienceProfile', profile.id , 'activity', $data)"
+                            onbeforesave="updateProfile('Profile', profile.id , 'activity', $data)"
                             ng-bind-html="profile.activity">{{ profile.activity }}
                         </h2>
                     </div>

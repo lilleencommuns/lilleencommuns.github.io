@@ -7,7 +7,7 @@ module.controller("AbstractListCtrl", ($scope, $stateParams, $timeout, BareResta
     """
     Abstract controller that initialize some list filtering parameters and
     watch for changes in filterParams from FilterService
-    Controllers using it need to implement a refreshList() method calling adequate [Object]Service
+    Controllers extending it need to implement a refreshList() method calling adequate [Object]Service
     """
     console.log(" Init list ctrler, defaultResultLimit = ", config.defaultResultLimit)
     $scope.params = {
@@ -34,22 +34,26 @@ module.controller("AbstractListCtrl", ($scope, $stateParams, $timeout, BareResta
         console.log(" Abstract List Refresher (do nothing)")
 
     $scope.refreshListGeneric = ()->
+        """ Retrieves search parameters from FilterService and defaultSiteTags and triggers refreshList """
         $scope.params['q'] = FilterService.filterParams.query
         $scope.params['facet'] = FilterService.filterParams.tags
+        console.log(" tags paremeters ? : ", FilterService.filterParams.tags)
         if config.defaultSiteTags # add tags from default "site tags" if specified
             for tag in config.defaultSiteTags
                 $scope.params['facet'].push(tag)
+        console.log(" facet paremeters ? : ", $scope.params['facet'] )
         $scope.refreshList()
 
     $scope.loadAll = ()->
-        """ Load all results (should be restrained regarding number of results) """
+        """ Load all results by merely updating limit parameter(should be restrained regarding number of results) """
         #if  $scope.resultTotalCount < 200 (see template)
         console.log(" loading all !")
         $scope.params['limit'] = $scope.resultTotalCount
         $scope.refreshList()
 
     $scope.loadMore = ()->
-        """ Using here custom Restangular service to use directly URL given by tastypie (nextURL) """
+        """ Using here custom Restangular service to use directly URL given by tastypie (nextURL)
+        FIXME : not generic !! """
         BareRestangular.all($scope.nextURL).getList().then((result)->
                 console.log("loading more !", result)
                 for item in result
@@ -60,6 +64,7 @@ module.controller("AbstractListCtrl", ($scope, $stateParams, $timeout, BareResta
                 else
                     $scope.seeMore = false
                 $timeout(()->
+                    # broadcast signal used in map controller
                     $scope.$broadcast('projectListRefreshed')
                 ,10)
             )
@@ -77,9 +82,14 @@ module.controller("AbstractListCtrl", ($scope, $stateParams, $timeout, BareResta
         else
             DataSharing.sharedObject['stateParamQuery'] = ''
         if $stateParams.tag
+            # check wether list or single tag provided (see ImaginationFilterCtrl)
             console.log(" [List] got a tag ! ", $stateParams.tag)
             DataSharing.sharedObject['stateParamTag'] = $stateParams.tag # share this with FilterCtrl
-            FilterService.filterParams.tags.push($stateParams.tag)
+            if typeof($stateParams.tag) == 'string'
+                FilterService.filterParams.tags.push($stateParams.tag)
+            else
+                for tag in $stateParams.tag
+                    FilterService.filterParams.tags.push(tag)
         else
             DataSharing.sharedObject['stateParamTag'] = []
         $scope.refreshListGeneric()
