@@ -6,7 +6,7 @@
 <div ng-init='init()'>
 
     <ul id="sidenav" class="project">
-        <li ><a ng-click="editable = ! editable; populateQuestions()" ng-init="editable=false" ng-class="{selected: editable}"><span class="glyphicon glyphicon-pencil"></span></a></li>
+        <li ><a ng-click="editable = ! editable; populateQuestions()" ng-class="{selected: editable}"><span class="glyphicon glyphicon-pencil"></span></a></li>
         <li><a href=""><span class="glyphicon glyphicon-share-alt"></span></a></li>
         <li><a href=""><span class="glyphicon glyphicon-envelope"></span></a></li>
     </ul><!-- #nav -->
@@ -35,7 +35,7 @@
 
                     <div class="col-md-8" >
                         <img ng-if="projectsheet.cover" ng-src="{{ config.media_uri }}{{ projectsheet.cover.thumbnail_url+'?width=700'}}" alt="Project Image" />
-                        <img ng-if="!projectsheet.cover" src="img/workshop.jpg" alt="Project Image" />
+                        <img ng-if="!projectsheet.cover" src="img/workshop.jpg" alt="Project Image" ng-cloack/>
                         <div class="editable" ng-show="editable" style="padding-top:inherit">
                             <div class="edit-buttons edit-cover-image">
                                 <button ng-click="openGallery(projectsheet)"><span class="glyphicon glyphicon-camera"></span></button>
@@ -63,32 +63,6 @@
                                     ng-href="{{ project.website }}">
                                 </a>
                             </div>
-                            <!-- <div class="editable">
-                                <div class="edit-buttons" ng-show="editable" ng-init="editWIP=false">
-                                    <button ng-click="editWIP = ! editWIP"><span class="glyphicon glyphicon-pencil"></span></button>
-                                </div>
-                                <fieldset class="phases" ng-controller="ProjectProgressCtrl" ng-init="init('makerscience')">
-                                    <p>État d'avancement</p>
-                                    <div ng-repeat="progress in progressRange|orderBy:'order'">
-                                        <label ng-if="progress.id!=projectsheet.progress.id"
-                                               style="background-image: url('../img/icons/project/project-grey.png');float:left"
-                                               tooltip="{{progress.label}} - {{progress.description}}">
-                                            <span ng-if="!editWIP">{{progress.label}}</span>
-                                            <a ng-if="editWIP"
-                                               ng-click="updateProjectSheet('Project', projectsheet.id, 'progress', progress.resource_uri);projectsheet.progress=progress">{{progress.label}}</a>
-                                        </label>
-                                        <label ng-if="progress.id==projectsheet.progress.id"
-                                               style="background-image: url('{{$root.config.media_uri}}{{progress.icon}}');float:left"
-                                               tooltip="{{progress.label}} - {{progress.description}}">
-                                            <span ng-if="!editWIP">{{progress.label}}</span>
-                                            <a ng-if="editWIP"
-                                               ng-click="updateProjectSheet('Project', projectsheet.id, 'progress', progress.resource_uri);projectsheet.progress=progress">{{progress.label}}</a>
-                                        </label>
-                                    </div>
-                                    </fieldset>
-
-                                </fieldset>
-                            </div> -->
                             <!-- FIXME : dates ? -->
                             <div class="editable">
                                 <p>Dernière mise à jour <span am-time-ago="projectsheet.modified"></span></p>
@@ -132,22 +106,15 @@
                                 <!-- <button type="button" ng-click="updateGeolocation(project.id)" ng-show="editable">Valider la Geolocalisation</button> -->
                             </div>
                         </div><!-- .side-header -->
-
                     </div><!-- .col-md-4 -->
-
                 </div><!-- .row -->
-
             </div><!-- .intro -->
-
         </div><!-- .container -->
-
     </div><!-- #intro -->
 
     <div class="row container">
-
         <div class="col-md-8">
             <div id="content">
-
                 <tabset class="nav-tabs-project">
                     <tab heading="Projet">
                         <section>
@@ -155,7 +122,6 @@
                                 <button> <span class="glyphicon glyphicon-pencil"></span></button>
                             </div>
                             <h3>A propos du projet</h3>
-
                             <p editable-text-angular="project.description"
                                  e-form="DescBtnForm"
                                  e-rows="4"
@@ -163,7 +129,6 @@
                                  onbeforesave="updateProjectSheet('Project', project.id , 'description', $data)"
                                  ng-bind-html="project.description">
                             </p>
-
                         </section>
                         <!--  FIXME : questions answers / templates -->
                         <section ng-repeat="item in projectsheet.question_answers" ng-show="item.answer.length > 0 || editable">

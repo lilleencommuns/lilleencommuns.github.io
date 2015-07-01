@@ -16,9 +16,10 @@ module.factory('ObjectProfileLink', (Restangular) ->
 class CurrentProfileService
     constructor : ($rootScope, $modal, Profile) ->
         console.log( " Init CurrentProfileService ")
-        if $rootScope.authVars.isAuthenticated 
-            $rootScope.currentProfile = Profile.one().get({'user__username':$rootScope.authVars.username}).$object 
-            console.log(" Current profile ", $rootScope.currentProfile)
+        if $rootScope.authVars.isAuthenticated
+            $rootScope.currentProfile = Profile.one().get('user__username':$rootScope.authVars.username).then((profileResult)->
+                $rootScope.currentProfile = profileResult.objects[0]
+            )
 
         $rootScope.openSignupPopup = ()->
             modalInstance = $modal.open(
@@ -35,7 +36,11 @@ class CurrentProfileService
 
         $rootScope.$watch('authVars.username', (newValue, oldValue) ->
             if (newValue != oldValue) && (newValue != '')
-                $rootScope.currentProfile = Profile.one().get({'user__username':newValue}).$object         
+                Profile.one().get({'user__username':newValue}).then((profileResult)->
+                        $rootScope.currentProfile = profileResult.objects[0]
+                        console.log(" CurrentProfile result ", profileResult)
+                        console.log(" CurrentProfile updated ! ", $rootScope.currentProfile )
+                )
         )
 
 
@@ -63,10 +68,10 @@ module.controller('SigninPopupCtrl', ($scope, $rootScope, $modalInstance, $state
     Controller bound to openSigninPopup method of CurrentProfile service
     """
     console.log(" init signin ctrler")
-    # 
+    #
     $rootScope.$watch('authVars.isAuthenticated', (newValue, oldValue) ->
         console.log(" isAuthenticated ? ", newValue)
         if newValue == true
-            $modalInstance.close()            
+            $modalInstance.close()
     )
 )
