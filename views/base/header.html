@@ -35,15 +35,15 @@
                         </p>
                         <div class="dropdown dropdown-logged-in" ng-show="authVars.isAuthenticated">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true"
-                                ng-init="arobase">
-                                {{ authVars.user.username | limitTo:index}} <span ng-if="authVars.user.username.length > 24">...</span>
+                                ng-init="arobaseIndex = authVars.user.username.indexOf('@')">
+                                {{ authVars.user.username | limitTo:23}} <span ng-if="authVars.user.username.length > 24">...</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" ui-sref="profile.detail({slug:currentMakerScienceProfile.slug})">Mon Profil</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" ui-sref="profile.detail({id:currentProfile.id})">Mon Profil</a></li>
                                 <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Activités récentes</a></li> -->
-                                <!-- <li role="presentation"><a role="menuitem" tabindex="-1" ui-sref="profile.dashboard({slug:currentMakerScienceProfile.slug})">Mes paramètres</a></li> --> -->
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Aide</a></li>
+                                <!-- <li role="presentation"><a role="menuitem" tabindex="-1" ui-sref="profile.dashboard({slug:currentMakerScienceProfile.slug})">Mes paramètres</a></li> -->
+                                <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Aide</a></li> -->
                                 <li role="presentation"><a ng-click="logout()" role="menuitem" tabindex="-1" href="#">Me déconnecter</a></li>
                             </ul>
                         </div>

@@ -23,9 +23,7 @@ module.controller("CommunityCtrl", ($scope, Profile, ObjectProfileLink, DataShar
         console.log("init community ctrler")
 
         $scope.addMember = (profile, level, detail, isValidated)->
-            console.log(" Profile ?", profile.objects[0].id)
-            console.log(" community A:" , $scope.community)
-            if $scope.isAlreadyMember(profile.objects[0], level)
+            if $scope.isAlreadyMember(profile, level)
                 console.log(" --- ! -- already Member with this level --- ! ---")
                 return true
             ObjectProfileLink.one().customPOST(
