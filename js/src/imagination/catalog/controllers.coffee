@@ -338,8 +338,9 @@ module.controller("ImaginationProjectSheetCtrl", ($rootScope, $scope, $statePara
         )
 
     # Load projectsheet data
-    ProjectSheet.one().get({'project__slug' : $stateParams.slug}).then((ProjectSheetResult) ->
-        $scope.projectsheet = ProjectSheetResult.objects[0]
+    #ProjectSheet.one().get({'project__slug' : $stateParams.slug}).then((ProjectSheetResult) ->
+    ProjectSheet.one($stateParams.projectsheet_id).get().then((ProjectSheetResult) ->
+        $scope.projectsheet = ProjectSheetResult
         $scope.project = $scope.projectsheet.project
 
         DataSharing.sharedObject = {project: $scope.projectsheet.project}

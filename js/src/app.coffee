@@ -80,7 +80,7 @@ angular.module('imagination', ['commons.catalog', 'commons.commonsdevmap', 'comm
                     parent : 'project.list'
         )
         .state('project.detail',
-                url: ':slug?editMode',
+                url: ':projectsheet_id?editMode',
                 templateUrl: 'views/catalog/project.detail.html',
                 controller : 'ImaginationProjectSheetCtrl'
                 ncyBreadcrumb:
