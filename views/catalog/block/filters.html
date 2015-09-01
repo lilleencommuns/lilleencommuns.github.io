@@ -8,9 +8,10 @@
     <div class="" style="width:100%; padding-bottom:10px;">
         <div class="" ng-controller="TagAutoCompleteCtrl">
             <tags-input ng-model="tags_filter"
-                        placeholder="> Mot-clé"
+                        placeholder="> Mot-clé....&nbsp "
                         on-tag-added="refreshFilter()"
-                        on-tag-removed="refreshFilter()">
+                        on-tag-removed="refreshFilter()"
+                        >
                         <auto-complete source="autocompleteFacetedTags($query)" min-length="1"></auto-complete>
             </tags-input>
         </div>

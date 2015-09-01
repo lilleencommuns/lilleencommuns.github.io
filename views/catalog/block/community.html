@@ -5,8 +5,8 @@
 </style>
 <section class="community community-{{parentColor}}" ng-controller="CommunityCtrl" ng-init="init(cummunityObjectTypeName)">
     <ul class="actions">
-        <li><a href="" ng-click="addMember(currentProfile, 2, '', true)"><span class="glyphicon glyphicon-thumbs-up"></span>Suivre</a></li>
-        <li><a href="" ng-click="currentUserCandidate=!currentUserCandidate"><span class="glyphicon glyphicon-user"></span>Contribuer</a></li>
+        <li><a href="" ng-click="addMember(currentProfile, 2, '', true); $root.authVars.loginrequired=!$root.authVars.isAuthenticated"><span class="glyphicon glyphicon-thumbs-up"></span>Suivre</a></li>
+        <li><a href="" ng-click="currentUserCandidate=!currentUserCandidate; $root.authVars.loginrequired=!$root.authVars.isAuthenticated"><span class="glyphicon glyphicon-user"></span>Contribuer</a></li>
         <!-- <li><a href="" ng-click="resourceCandidate = currentMakerScienceProfile.parent"><span class="glyphicon glyphicon-user"></span>Contribuer</a></li> -->
     </ul>
     <h3>La communauté</h3>
@@ -15,8 +15,8 @@
         <button type="button" ng-show="!teamCandidate && !resourceCandidate" class="btn btn-primary" ng-click="teamCandidate=currentProfile">Vous êtes membre de l'équipe</button>
         <button type="button" ng-show="!teamCandidate && !resourceCandidate" class="btn btn-primary" ng-click="resourceCandidate=currentProfile">Vous voulez aider ce projet</button>
         <input type="text" ng-show="teamCandidate || resourceCandidate" name="role" ng-model="role" placeholder="Saisissez votre rôle ..." />
-        <button type="button" ng-show="teamCandidate" class="btn btn-primary" ng-click="addMember(teamCandidate, 0, role, false); currentUserCandidate=false; teamCandidate=null;">S'ajouter comme membre d'équipe</button>
-        <button type="button" ng-show="resourceCandidate" class="btn btn-primary" ng-click="addMember(resourceCandidate, 1, role, false); currentUserCandidate=false; resourceCandidate=null;">S'ajouter comme membre resource</button>
+        <button type="button" ng-show="teamCandidate" class="btn btn-primary" ng-click="addMember(teamCandidate, 0, role, true); currentUserCandidate=false; teamCandidate=null;">S'ajouter comme membre d'équipe</button>
+        <button type="button" ng-show="resourceCandidate" class="btn btn-primary" ng-click="addMember(resourceCandidate, 1, role, true); currentUserCandidate=false; resourceCandidate=null;">S'ajouter comme membre resource</button>
         <button type="button" class="btn btn-default" ng-click="currentUserCandidate=false; teamCandidate=null; resourceCandidate=null">Annuler</button>
 
     </div>
@@ -92,7 +92,7 @@
                     <button type="button" class="btn btn-primary" ng-click="resourceCandidate=null">Annuler</button>
                 </div>
             </div><!-- .add-member -->
-            
+
             <div class="member" ng-class="{'member-edit': editable}" ng-repeat="member in community | filter: {level:1}">
                 <ng-include ng-if="member.isValidated || editable" src="'views/catalog/block/community_profile_thumb.html'"></ng-include>
                 <div ng-show="editable">
