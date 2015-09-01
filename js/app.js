@@ -4,6 +4,8 @@
 
   angular.module('commons.catalog', ['commons.catalog.controllers', 'commons.catalog.services']);
 
+  angular.module('imagination.profile', ['imagination.profile.controllers', 'imagination.profile.services']);
+
   angular.module('commons.commonsdevmap', ['commons.commonsdevmap.services']);
 
   angular.module('commons.encommuns', ['commons.encommuns.controllers', 'commons.encommuns.services']);
@@ -14,9 +16,11 @@
 
   angular.module('imagination.catalog', ['imagination.catalog.controllers']);
 
+  angular.module('imagination.profile', ['imagination.profile.controllers', 'imagination.profile.services']);
+
   angular.module('map', ['map.controllers']);
 
-  angular.module('imagination', ['commons.catalog', 'commons.encommuns', 'commons.commonsdevmap', 'commons.accounts', 'commons.ucomment', 'commons.base', 'imagination.catalog', 'map', 'restangular', 'ui.bootstrap', 'ui.router', 'xeditable', 'checklist-model', 'textAngular', 'angularjs-gravatardirective', 'angularFileUpload', 'ngSanitize', 'ngTagsInput', 'angularMoment', 'angular-unisson-auth', 'leaflet-directive', "angucomplete-alt", "videosharing-embed", 'geocoder-service', 'ncy-angular-breadcrumb', 'truncate', 'angular-loading-bar', 'angular-capitalize-filter']).config([
+  angular.module('imagination', ['commons.catalog', 'commons.encommuns', 'commons.commonsdevmap', 'commons.accounts', 'commons.ucomment', 'commons.base', 'imagination.catalog', 'imagination.profile', 'map', 'restangular', 'ui.bootstrap', 'ui.router', 'xeditable', 'checklist-model', 'textAngular', 'angularjs-gravatardirective', 'angularFileUpload', 'ngSanitize', 'ngTagsInput', 'angularMoment', 'angular-unisson-auth', 'leaflet-directive', "angucomplete-alt", "videosharing-embed", 'geocoder-service', 'ncy-angular-breadcrumb', 'truncate', 'angular-loading-bar', 'angular-capitalize-filter']).config([
     '$httpProvider', function($httpProvider) {
       $httpProvider.defaults.useXDomain = true;
       return delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -76,7 +80,7 @@
           parent: 'project.list'
         }
       }).state('project.detail', {
-        url: ':slug',
+        url: ':projectsheet_id?editMode',
         templateUrl: 'views/encommuns/commons.detail.html',
         controller: 'ImaginationProjectSheetCtrl',
         ncyBreadcrumb: {
@@ -109,6 +113,14 @@
         ncyBreadcrumb: {
           label: 'Tags',
           parent: 'home'
+        }
+      }).state('profile.detail', {
+        url: ':id',
+        templateUrl: 'views/profile/profile.detail.html',
+        controller: 'ImaginationProfileCtrl',
+        ncyBreadcrumb: {
+          label: '{{profile.full_name}}',
+          parent: 'profile.list'
         }
       });
     }

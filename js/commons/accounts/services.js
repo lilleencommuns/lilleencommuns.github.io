@@ -22,8 +22,9 @@
       if ($rootScope.authVars.isAuthenticated) {
         $rootScope.currentProfile = Profile.one().get({
           'user__username': $rootScope.authVars.username
-        }).$object;
-        console.log(" Current profile ", $rootScope.currentProfile);
+        }).then(function(profileResult) {
+          return $rootScope.currentProfile = profileResult.objects[0];
+        });
       }
       $rootScope.openSignupPopup = function() {
         var modalInstance;
@@ -42,9 +43,13 @@
       };
       $rootScope.$watch('authVars.username', function(newValue, oldValue) {
         if ((newValue !== oldValue) && (newValue !== '')) {
-          return $rootScope.currentProfile = Profile.one().get({
+          return Profile.one().get({
             'user__username': newValue
-          }).$object;
+          }).then(function(profileResult) {
+            $rootScope.currentProfile = profileResult.objects[0];
+            console.log(" CurrentProfile result ", profileResult);
+            return console.log(" CurrentProfile updated ! ", $rootScope.currentProfile);
+          });
         }
       });
     }

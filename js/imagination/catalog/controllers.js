@@ -7,12 +7,8 @@
   module.controller("ImaginationFilterCtrl", function($scope, $state, $stateParams, $q, DataSharing, Tag, FilterService, ProjectSheet) {
     "Controller in charge of updating filter parameters and suggested tags";
     console.log(" Init ImaginationFilter Ctrl , state param ?", $stateParams);
-    $scope.objectType = 'project';
-    $scope.suggestedTags = [];
-    $scope.tags_filter = [];
-    $scope.tags_filter_flat = [];
-    $scope.query_filter = '';
     $scope.updateSuggestedTags = function() {
+      "update suggested tags by asking remaining facets : use tags_list and default \"site tags\" as selected facets";
       var facet_list, tag, _i, _len, _ref, _results;
       facet_list = $scope.tags_filter_flat;
       if (config.defaultSiteTags) {
@@ -30,10 +26,15 @@
         }
         return _results;
       } else {
-        return $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {
-          auto: '',
-          facet: facet_list
-        }).$object;
+        switch ($scope.objectType) {
+          case 'project':
+            return $scope.suggestedTags = ProjectSheet.one().customGETLIST('search', {
+              auto: '',
+              facet: facet_list
+            }).$object;
+          case 'profile':
+            return $scope.suggestedTags = [];
+        }
       }
     };
     $scope.refreshFilter = function() {
@@ -46,6 +47,7 @@
         tag = _ref[_i];
         $scope.tags_filter_flat.push(tag.text);
       }
+      console.log("refreshing filter (ctrler) tags_filter_flat : ", $scope.tags_filter_flat);
       FilterService.filterParams.tags = $scope.tags_filter_flat;
       FilterService.filterParams.query = $scope.query_filter;
       $state.go('project.list', {
@@ -59,21 +61,27 @@
     $scope.addToTagsFilter = function(aTag) {
       " If not already there, add aTag from suggested tags to tags filter list (flat+object) ";
       var simpleTag;
+      console.log(" Adding tag to filter, aTag :  ", aTag);
       if ($scope.tags_filter_flat.indexOf(aTag.name) === -1) {
         $scope.tags_filter_flat.push(aTag.name);
         simpleTag = {
           text: aTag.name
         };
+        console.log(" Adding tag to filter, simpleTag : ", simpleTag);
         $scope.tags_filter.push(simpleTag);
       }
       return $scope.refreshFilter();
     };
     $scope.load = function(objectType) {
       var e, tag, tagFilterObject, _i, _len, _ref;
+      console.log(" loading FilterCtrl for type : ", objectType);
+      console.log(" loading FilterCtrl date shared  : ", DataSharing.sharedObject);
+      console.log(" loading FilterCtrl date shared typeof  : ", typeof DataSharing.sharedObject.stateParamTag);
       $scope.objectType = objectType;
       $scope.tags_filter = [];
       $scope.tags_filter_flat = [];
       $scope.query_filter = '';
+      $scope.suggestedTags = [];
       try {
         if (DataSharing.sharedObject.stateParamTag && DataSharing.sharedObject.stateParamTag !== '') {
           if (typeof DataSharing.sharedObject.stateParamTag === 'string') {
@@ -164,13 +172,15 @@
         $scope.saveVideos(projectsheetResult.id);
         if ($scope.uploader.queue.length <= 0) {
           return $state.go("project.detail", {
-            slug: projectsheetResult.project.slug
+            slug: projectsheetResult.project.slug,
+            editMode: 'on'
           });
         } else {
           $scope.savePhotos(projectsheetResult.id, projectsheetResult.bucket.id);
           return $scope.uploader.onCompleteAll = function() {
             return $state.go("project.detail", {
-              slug: projectsheetResult.project.slug
+              slug: projectsheetResult.project.slug,
+              editMode: 'on'
             });
           };
         }
@@ -188,7 +198,12 @@
     });
     $scope.preparedTags = [];
     $scope.currentUserHasEditRights = false;
-    $scope.editable = false;
+    console.log(" stateParams ? ", $stateParams);
+    if ($stateParams.editMode === 'on') {
+      $scope.editable = true;
+    } else {
+      $scope.editable = false;
+    }
     $scope.countryData = [
       {
         "id": "AF",
@@ -1136,10 +1151,8 @@
         }
       });
     };
-    return ProjectSheet.one().get({
-      'project__slug': $stateParams.slug
-    }).then(function(ProjectSheetResult) {
-      $scope.projectsheet = ProjectSheetResult.objects[0];
+    return ProjectSheet.one($stateParams.projectsheet_id).get().then(function(ProjectSheetResult) {
+      $scope.projectsheet = ProjectSheetResult;
       $scope.project = $scope.projectsheet.project;
       DataSharing.sharedObject = {
         project: $scope.projectsheet.project

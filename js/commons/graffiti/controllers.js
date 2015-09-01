@@ -47,8 +47,13 @@
       });
     }
     $scope.addTag = function(objectTypeName, resourceId, tag) {
+      var tag_text;
+      tag_text = tag.text;
+      tag_text = tag_text.toLowerCase();
+      tag_text = tag_text.replace(/\//i, "-");
+      tag.text = tag_text;
       return TaggedItem.one().customPOST({
-        tag: tag.text
+        tag: tag_text
       }, objectTypeName + "/" + resourceId, {});
     };
     $scope.removeTag = function(tag) {

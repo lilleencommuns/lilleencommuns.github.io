@@ -14,7 +14,6 @@
     return $scope.init = function(objectTypeName) {
       console.log("init community ctrler");
       $scope.addMember = function(profile, level, detail, isValidated) {
-        console.log(" Profile ?", profile);
         if ($scope.isAlreadyMember(profile, level)) {
           console.log(" --- ! -- already Member with this level --- ! ---");
           return true;
@@ -25,6 +24,7 @@
           detail: detail,
           isValidated: isValidated
         }, $scope.objectTypeName + '/' + $scope.object.id).then(function(objectProfileLinkResult) {
+          console.log(" Profile ?", profile.id);
           return $scope.community.push(objectProfileLinkResult);
         });
       };
@@ -74,7 +74,8 @@
         console.log(" Updating Shared Object : new =" + newVal + " old = " + oldVal);
         if (newVal !== oldVal) {
           $scope.object = newVal[$scope.objectTypeName];
-          return $scope.community = ObjectProfileLink.one().customGETLIST($scope.objectTypeName + '/' + $scope.object.id).$object;
+          $scope.community = ObjectProfileLink.one().customGETLIST($scope.objectTypeName + '/' + $scope.object.id).$object;
+          return console.log(" community B:", $scope.community);
         }
       });
     };
