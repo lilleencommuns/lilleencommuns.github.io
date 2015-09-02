@@ -52,12 +52,12 @@
   }).config([
     '$locationProvider', '$stateProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
       $locationProvider.html5Mode(config.useHtml5Mode);
-      $urlRouterProvider.otherwise("/");
+      $urlRouterProvider.otherwise("/p/list");
       return $stateProvider.state('home', {
         url: '/',
-        templateUrl: 'views/catalog/project.list.html',
+        templateUrl: 'views/homepage.html',
         ncyBreadcrumb: {
-          label: 'Projets'
+          label: 'Accueil'
         }
       }).state('project', {
         url: '/p/',
@@ -118,7 +118,6 @@
         url: '/economique',
         templateUrl: 'views/encommuns/economique.html',
         controller: 'PrestationManagerCtrl'
-        }
       }).state('profile.detail', {
         url: ':id',
         templateUrl: 'views/profile/profile.detail.html',
