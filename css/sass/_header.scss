@@ -364,10 +364,11 @@ div.crumbs {
 		}
 	}
 	&.intro-profile {
-		border-top: 1px solid #ccc;
-		border-bottom: 1px solid #ccc;
-		background: $color-chocolate url('../img/bg/header-listing-profiles.jpg') center center no-repeat;
+		// border-top: 1px solid #ccc;
+		// border-bottom: 1px solid #ccc;
+		// background: $color-chocolate url('../img/bg/header-listing-profiles.jpg') center center no-repeat;
 		background-size: cover;
+		margin-top: 50px;
 		.col-md-4 {
 			padding-right: 0; /* remove gutter */
 			height: $intro-profile-height;
@@ -375,7 +376,7 @@ div.crumbs {
 		}
 		.col-md-8 {
 			padding-left: 0; /* remove gutter */
-			height: $intro-profile-height;
+			height: 200px;
 			max-height: $intro-profile-height;
 		}
 		div.intro {
@@ -390,8 +391,8 @@ div.crumbs {
 				background-color: transparent;
 			}
 			h1 {
-				padding: 0 0 $grid-gutter-width / 2 0;
-				font-size: 2em;
+				// padding: 0 0 $grid-gutter-width / 2 0;
+				// font-size: 2em;
 			}
 			h2 {
 				padding-top: 4px; /* to be aligned with the editing buttons */
@@ -458,7 +459,7 @@ div.crumbs {
 
 	div.side-header {
 		position: relative;
-		min-height: $home-slide-height;
+		// min-height: $home-slide-height;
 		margin-right: -1px; /* fix 1px bug from boostrap grid */
 		padding: 1em;
 		color: $color-intro;
@@ -466,6 +467,9 @@ div.crumbs {
 		p.location img {
 			margin-right: 1em;
 			vertical-align: middle;
+		}
+		.profile {
+			min-height: 200px;
 		}
 	}
 

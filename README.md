@@ -3,7 +3,7 @@ Project platform HTML FrontEnd
 
 A Projet front-end companion for the Data Server.
 
-Version 0.5.4
+Version 0.5.6
 
 Installation
 =====

@@ -5,10 +5,13 @@
   module = angular.module("commons.catalog.controllers", ['commons.catalog.services', 'commons.base.controllers', 'commons.base.services']);
 
   module.controller("ProjectSheetListCtrl", function($scope, $controller, ProjectSheet, $timeout) {
+    "Controller that extends AbstractListCtrl with ProjectSheet search";
     angular.extend(this, $controller('AbstractListCtrl', {
       $scope: $scope
     }));
+    console.log(" Init Project List Controller", $scope.params);
     return $scope.refreshList = function() {
+      console.log(" refreshing Project List", $scope.params);
       return ProjectSheet.one().customGETLIST('search', $scope.params).then(function(result) {
         console.log(" Refreshed ! ", result);
         if (result.length > 0) {

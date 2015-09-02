@@ -5,7 +5,7 @@
   module = angular.module("commons.base.controllers", ['commons.base.services', 'commons.accounts.controllers', 'commons.graffiti.services', 'commons.catalog.services']);
 
   module.controller("AbstractListCtrl", function($scope, $stateParams, $timeout, BareRestangular, DataSharing, FilterService) {
-    "Abstract controller that initialize some list filtering parameters and\nwatch for changes in filterParams from FilterService\nControllers using it need to implement a refreshList() method calling adequate [Object]Service";
+    "Abstract controller that initialize some list filtering parameters and\nwatch for changes in filterParams from FilterService\nControllers extending it need to implement a refreshList() method calling adequate [Object]Service";
     console.log(" Init list ctrler, defaultResultLimit = ", config.defaultResultLimit);
     $scope.params = {
       limit: config.defaultResultLimit
@@ -30,9 +30,11 @@
       return console.log(" Abstract List Refresher (do nothing)");
     };
     $scope.refreshListGeneric = function() {
+      " Retrieves search parameters from FilterService and defaultSiteTags and triggers refreshList ";
       var tag, _i, _len, _ref;
       $scope.params['q'] = FilterService.filterParams.query;
       $scope.params['facet'] = FilterService.filterParams.tags;
+      console.log(" tags paremeters ? : ", FilterService.filterParams.tags);
       if (config.defaultSiteTags) {
         _ref = config.defaultSiteTags;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -40,16 +42,17 @@
           $scope.params['facet'].push(tag);
         }
       }
+      console.log(" facet paremeters ? : ", $scope.params['facet']);
       return $scope.refreshList();
     };
     $scope.loadAll = function() {
-      " Load all results (should be restrained regarding number of results) ";
+      " Load all results by merely updating limit parameter(should be restrained regarding number of results) ";
       console.log(" loading all !");
       $scope.params['limit'] = $scope.resultTotalCount;
       return $scope.refreshList();
     };
     $scope.loadMore = function() {
-      " Using here custom Restangular service to use directly URL given by tastypie (nextURL) ";
+      " Using here custom Restangular service to use directly URL given by tastypie (nextURL)\nFIXME : not generic !! ";
       return BareRestangular.all($scope.nextURL).getList().then(function(result) {
         var item, _i, _len;
         console.log("loading more !", result);
@@ -70,6 +73,7 @@
     };
     return $scope.init = function(limit, featured) {
       " Init query param from stateParams (see routing in app.coffee) and template constants (limit, featured) ";
+      var tag, _i, _len, _ref;
       console.log(" Init List controller ! ", limit);
       if (limit) {
         $scope.params.limit = limit;
@@ -85,7 +89,15 @@
       if ($stateParams.tag) {
         console.log(" [List] got a tag ! ", $stateParams.tag);
         DataSharing.sharedObject['stateParamTag'] = $stateParams.tag;
-        FilterService.filterParams.tags.push($stateParams.tag);
+        if (typeof $stateParams.tag === 'string') {
+          FilterService.filterParams.tags.push($stateParams.tag);
+        } else {
+          _ref = $stateParams.tag;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            tag = _ref[_i];
+            FilterService.filterParams.tags.push(tag);
+          }
+        }
       } else {
         DataSharing.sharedObject['stateParamTag'] = [];
       }
