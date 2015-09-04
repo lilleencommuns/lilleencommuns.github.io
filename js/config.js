@@ -10,7 +10,7 @@
     bucket_uri: 'http://data.patapouf.org/bucket/upload/',
     loginBaseUrl: 'http://data.patapouf.org/api/v0',
     oauthBaseUrl: 'http://lille.encommuns.org',
-    oauthCliendId: '834927693290-fdibik9cv2ngiqpdn47qjlc1tqp97cl2.apps.googleusercontent.com',
+    oauthCliendId: '1yyK2QCNeuxat4jEhDTricCPGAlY6Fipt3WBc64B',
     media_uri: 'http://data.patapouf.org',
     rest_uri: "http://data.patapouf.org/api/v0",
     dataserver_url: "http://data.patapouf.org"
