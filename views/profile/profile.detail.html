@@ -55,7 +55,7 @@
 
                 <div class="col-md-8 profile">
                     <h1 ng-if="profile.user.first_name || profile.user.last_name">{{profile.user.first_name}} <strong>{{profile.user.last_name}}</strong></h1>
-                    <h1 ng-if="!profile.user.first_name || !profile.user.last_name"> <strong> {{profile.username}}</strong></h1>
+                    <h1 ng-if="!profile.user.first_name && !profile.user.last_name"> <strong> {{profile.username}}</strong></h1>
                     <div class="side-header profile" ng-class="{ 'editing' : editable }">
                         <!-- <a ui-sref="profile.dashboard({id : profile.id})">Voir mon dashboard</a> -->
 

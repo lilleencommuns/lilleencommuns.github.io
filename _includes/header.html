@@ -18,8 +18,9 @@
                             <li><a href="/about" ng-class="{ selected: $state.includes('about') }">A propos</a></li>
                             <!-- <li><a ui-sref="profile.list" ng-class="{ selected: $state.includes('profile.list') }">Membres</a></li> -->
                             <!-- <li><a ui-sref="map" ng-class="{ selected: $state.includes('map') }">Cartographie</a></li> -->
-                             <li><a href="/#/p/list" ng-class="{ selected: $state.includes('project.list') }">Projets</a></li>
+                             <li><a href="/#/p/list" ng-class="{ selected: $state.includes('project.list') }">Communs</a></li>
                              <li><a href="/#/p/new" ng-class="{ selected: $state.includes('project.new') }">Ajouter</a></li>
+                             <li><a href="/contribuer">Contribuer</a></li>
                             <!-- <li><a ui-sref="forum" ng-class="{ selected: $state.includes('forum') }">Discussions</a></li> -->
                         </ul>
                         <!--
@@ -28,7 +29,7 @@
                         </form>
                         -->
                         <p class="register-login" ng-show="!authVars.isAuthenticated">
-                            <button class="button" ng-click="forceLogin()">S'inscrire/Se connecter</button>
+                            <button class="button" ng-click="forceLogin()">Se connecter</button>
                         </p>
                         <div class="dropdown dropdown-logged-in" ng-show="authVars.isAuthenticated">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
