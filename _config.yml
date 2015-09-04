@@ -1,9 +1,9 @@
 # Site settings
 
 title: Repérer et favoriser la convergence autour de "communs"
-email: contact@encommuns.org
+email: contact@encommuns.org 
 description: > 
-  Repérer les communs et les caractériser pour favoriser la convergence des contributions et la récipricité économique autour des communs
+  Repérer les communs et les caractériser pour favoriser la convergence des contributions et la récipricité économique autour des communs.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://encommus.org" # the base hostname & protocol for your site
 twitter_username: encommuns
