@@ -172,14 +172,14 @@
         $scope.saveVideos(projectsheetResult.id);
         if ($scope.uploader.queue.length <= 0) {
           return $state.go("project.detail", {
-            projectsheet_id: projectsheetResult.project.id,
+            projectsheet_id: projectsheetResult.id,
             editMode: 'on'
           });
         } else {
           $scope.savePhotos(projectsheetResult.id, projectsheetResult.bucket.id);
           return $scope.uploader.onCompleteAll = function() {
             return $state.go("project.detail", {
-              projectsheet_id: projectsheetResult.project.id,
+              projectsheet_id: projectsheetResult.id,
               editMode: 'on'
             });
           };
