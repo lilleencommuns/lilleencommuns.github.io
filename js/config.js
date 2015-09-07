@@ -5,7 +5,7 @@
     useHtml5Mode: false,
     projectSheetTemplateSlug: 'unisson',
     defaultSiteTags: ['lille', 'commun'],
-    editorialSuggestedTags: [],
+    editorialSuggestedTags: ['Alimentation','Lieux','Objets','Communautés','Culture','Education','Equipements'],
     defaultResultLimit: 28,
     bucket_uri: 'http://data.patapouf.org/bucket/upload/',
     loginBaseUrl: 'http://data.patapouf.org/api/v0',
